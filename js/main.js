@@ -84,14 +84,14 @@
 
         $zoomIn.on( "click", function( event ) {
             event.preventDefault();
-            zoom( true );
+            controlZoom( true );
         });
         $zoomOut.on( "click", function( event ) {
             event.preventDefault();
-            zoom( false );
+            controlZoom( false );
         });
 
-        function zoom( bln ) {
+        function controlZoom( bln ) {
             if ( bln && zoom.current < zoom.max ) {
                 zoom.current += zoom.interval;
             } else if ( !bln && zoom.current > zoom.min ) {
