@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+
+<html lang="ko" dir="ltr">
+
+<head>
+	<!-- Charset, Viewport -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="user-scalable=no">
+	<!-- Title -->
+	<title>대한민국 기상청</title>
+	<!-- Description -->
+	<meta name="description" content="Web Design Portfolio">
+	<meta name="keywords" content="KMA, Weather, Meteo, Forecast">
+	<meta name="author" content="KMA">
+	<meta name="robots" content="index, follow">
+	<!-- CSS -->
+	<link rel="stylesheet" type="text/css" href="css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="plugins/jquery-ui/jquery-ui.min.css">
+    <link rel="stylesheet" type="text/css" href="plugins/jquery-ui/jquery-ui.theme.css">
+	<!-- Favicons: generated from http://realfavicongenerator.net -->
+    <link rel="apple-touch-icon" sizes="114x114" href="img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="img/favicons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="img/favicons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="img/favicons/manifest.json">
+    <!-- <link rel="mask-icon" href="img/favicons/safari-pinned-tab.svg" color="#5bbad5"> -->
+    <meta name="theme-color" content="#ffffff">
+	<!-- JavaScript Libraries -->
+    <script type="text/javascript" src="plugins/modernizr-custom.js"></script>
+    <script type="text/javascript" src="plugins/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="plugins/jquery-ui/jquery-ui.min.js"></script>
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="plugins/html5shiv.min.js"></script>
+    <script type="text/javascript" src="plugins/html5shiv-printshiv.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+    <!-- header -->
+    <header role="banner" id="header" class="l-header">
+
+        <!-- subheader -->
+        <div role="menubar" id="sub_header">
+            <div class="grid_holder">
+
+                <!-- 언어 -->
+                <div class="l-left cell">
+                    <form role="form" id="interlanguage" class="interlanguage">
+                        <select role="listbox" id="language" name="language" class="styled">
+                            <!-- http://web.kma.go.kr/index.jsp -->
+                            <option role="option" value="" selected="selected">한국어</option>
+                            <!-- http://web.kma.go.kr/eng/index.jsp -->
+                            <option role="option" value="" lang="en">English</option>
+                            <!-- http://web.kma.go.kr/jpn/index.jsp -->
+                            <option role="option" value="" lang="ja">日本語</option>
+                            <!-- http://web.kma.go.kr/chn/index.jsp -->
+                            <option role="option" value="" lang="zh-Hans">中文</option>
+                        </select>
+                    </form>
+                </div>
+
+                <!-- 편의성 링크 -->
+                <div class="l-left cell navset">
+                    <ul role="menu" class="list_inline">
+                        <li role="presentation"><a role="menuitem" href="http://web.kma.go.kr/global/top/sitemap.jsp" title="모바일 버전으로 보기">사이트맵</a></li>
+                        <li role="presentation"><a role="menuitem" href="http://m.kma.go.kr" title="모바일 버전으로 보기">모바일</a></li>
+                        <li role="presentation"><a role="menuitem" href="http://www.kma.go.kr/weather/lifenindustry/sevice_widget.jsp" title="PC에 설치하는 날씨위젯">날씨위젯</a></li>
+                        <li role="presentation"><a role="menuitem" href="http://www.kma.go.kr/weather/lifenindustry/sevice_rss.jsp" title="RSS로 제공되는 기상자료">RSS</a></li>
+                        <li role="presentation"><a role="menuitem" href="http://www.kma.go.kr/weather/lifenindustry/sevice_mobile.jsp" title="실시간 날씨정보 통화 서비스">WINC</a></li>
+                    </ul>
+                </div>
+
+                <!-- 검색 -->
+                <div class="l-right cell">
+                    <form role="search" id="search_dictionary" class="global_search" method="post" action="http://web.kma.go.kr/search/kmaSearch.jsp">
+                        <fieldset>
+                            <legend class="sr_only">통합 검색</legend>
+                            <div class="view">
+                                <input type="text" id="input_keyword1" name="keyword" class="inputbase styled shadow" title="검색어 입력"> 
+                                <input role="button" type="submit" class="styled" value="검색">
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+
+                <!-- 글자 크기 조절 -->
+                <div class="l-right cell navset">
+                    <ul role="menu" class="list_inline">
+                        <li role="presentation"><a role="menuitem" id="zoom_out" href="#" title="화면 크기를 축소합니다.">축소</a></li>
+                        <li role="presentation"><a role="menuitem" id="zoom_in" href="#" title="화면 크기를 확대합니다.">확대</a></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- main header -->
+        <div role="menubar" id="main_header" class="l-main_header grid_holder">
+            <!-- 기상청 로고 -->
+            <h1 id="site_logo" class="l-left">
+                <a role="button" href="http://www.kma.go.kr/index.jsp">
+                    <img src="img/logo.svg" width="98" height="40" alt="기상청">
+                </a>
+                <span class="spacer"></span>
+                <a role="button" href="http://www.moi.go.kr/frt/sub/popup/p_taegugki_banner/screen.do">
+                    <img src="img/logo_append.svg" width="98" height="26" alt="희망의 새 시대">
+                </a>
+            </h1>
+
+            <!-- 메인 메뉴 -->
+            <nav id="content_nav" class="l-right">
+                <ul role="menu" class="primary_nav">
+                    <li role="presentation">
+                        <a role="menuitem" id="content_open_gov" href="http://web.kma.go.kr/info_open/info/open.jsp" title="정보공개">정보공개</a>
+                        <ul role="menu" class="secondary_nav" aria-labelledby="content_open_gov">
+                            <li role="presentation"><a role="menuitem" href="#" title="정보공개">정보공개</a></li>
+                            <li role="presentation"><a role="menuitem" href="#" title="공공데이터 개방">공공데이터 개방</a></li>
+                            <li role="presentation"><a role="menuitem" href="#" title="전자민원">전자민원</a></li>
+                            <li role="presentation"><a role="menuitem" href="#" title="정책실명제">정책실명제</a></li>
+                            <li role="presentation"><a role="menuitem" href="#" title="청렴자료 공개">청렴자료 공개</a></li>
+                            <li role="presentation"><a role="menuitem" href="#" title="법령정보">법령정보</a></li>
+                        </ul>
+                    </li>
+                    <li role="presentation">
+                        <a role="menuitem" id="content_weather" href="http://www.kma.go.kr/weather/main.jsp" title="날씨">날씨</a>
+                        <ul role="menu" class="secondary_nav" aria-labelledby="content_weather">
+                            <li role="presentation"><a role="menuitem" href="#" title="날씨종합">날씨종합</a></li>
+                            <li role="presentation"><a role="menuitem" href="#" title="특보, 예보">특보 &sdot; 예보</a></li>
+                            <li role="presentation"><a role="menuitem" href="#" title="날씨영상">날씨영상</a></li>
+                            <li role="presentation"><a role="menuitem" href="#" title="바다날씨">바다날씨</a></li>
+                            <li role="presentation"><a role="menuitem" href="#" title="태풍">태풍</a></li>
+                            <li role="presentation"><a role="menuitem" href="#" title="황사">황사</a></li>
+                            <li role="presentation"><a role="menuitem" href="#" title="지진, 화산">지진 &sdot; 화산</a></li>
+                            <li role="presentation"><a role="menuitem" href="#" title="관측자료">관측자료</a></li>
+                            <li role="presentation"><a role="menuitem" href="#" title="기후자료">기후자료</a></li>
+                            <li role="presentation"><a role="menuitem" href="#" title="생활과 산업">생활과 산업</a></li>
+                        </ul>
+                    </li>
+                    <li role="presentation">
+                        <a role="menuitem" id="content_interact" href="https://web.kma.go.kr/notify/epeople/e_qna.jsp#epeopleFrameFocus" title="참여와 소통">참여와 소통</a>
+                        <ul role="menu" class="secondary_nav" aria-labelledby="content_interact">
+                            <li role="presentation"><a role="menuitem" href="#" title="국민참여마당">국민참여마당</a></li>
+                            <li role="presentation"><a role="menuitem" href="#" title="날씨이야기">날씨이야기</a></li>
+                            <li role="presentation"><a role="menuitem" href="#" title="기상사진전">기상사진전</a></li>
+                            <li role="presentation"><a role="menuitem" href="#" title="설문조사">설문조사</a></li>
+                        </ul>
+                    </li>
+                    <li role="presentation">
+                        <a role="menuitem" id="content_study" href="https://web.kma.go.kr/notify/epeople/e_qna.jsp#epeopleFrameFocus" title="지식창고">지식창고</a>
+                        <ul role="menu" class="secondary_nav" aria-labelledby="content_study">
+                            <li role="presentation"><a role="menuitem" href="#" title="예보기술">예보기술</a></li>
+                            <li role="presentation"><a role="menuitem" href="#" title="기상백과">기상백과</a></li>
+                            <li role="presentation"><a role="menuitem" href="#" title="간행물">간행물</a></li>
+                            <li role="presentation"><a role="menuitem" href="#" title="날씨배움터">날씨배움터</a></li>
+                            <li role="presentation"><a role="menuitem" href="#" title="어린이기상교실">어린이기상교실</a></li>
+                            <li role="presentation"><a role="menuitem" href="#" title="기상청체험학습">기상청체험학습</a></li>
+                            <li role="presentation"><a role="menuitem" href="#" title="민간위탁교육훈련">민간위탁교육훈련</a></li>
+                        </ul>
+                    </li>
+                    <li role="presentation">
+                        <a role="menuitem" id="content_administration" href="http://web.kma.go.kr/communication/encyclopedia/list.jsp" title="행정과 정책">행정과 정책</a>
+                        <ul role="menu" class="secondary_nav" aria-labelledby="content_administration">
+                            <li role="presentation"><a role="menuitem" href="#" title="포토뉴스">포토뉴스</a></li>
+                            <li role="presentation"><a role="menuitem" href="#" title="공지사항">공지사항</a></li>
+                            <li role="presentation"><a role="menuitem" href="#" title="보도자료">보도자료</a></li>
+                            <li role="presentation"><a role="menuitem" href="#" title="채용, 인사">채용 &sdot; 인사</a></li>
+                            <li role="presentation"><a role="menuitem" href="#" title="국정과제">국정과제</a></li>
+                            <li role="presentation"><a role="menuitem" href="#" title="날씨경영도우미">날씨경영도우미</a></li>
+                        </ul>
+                    </li>
+                    <li role="presentation">
+                        <a role="menuitem" id="content_introduction" href="http://web.kma.go.kr/notify/focus/list.jsp" title="기상청소개">기상청소개</a>
+                        <ul role="menu" class="secondary_nav" aria-labelledby="content_introduction">
+                            <li role="presentation"><a role="menuitem" href="#" title="청/차장소개">청/차장소개</a></li>
+                            <li role="presentation"><a role="menuitem" href="#" title="미션비전">미션비전</a></li>
+                            <li role="presentation"><a role="menuitem" href="#" title="조직직원">조직직원</a></li>
+                            <li role="presentation"><a role="menuitem" href="#" title="주요업무">주요업무</a></li>
+                            <li role="presentation"><a role="menuitem" href="#" title="소속, 산하기관소개">소속 &sdot; 산하기관소개</a></li>
+                            <li role="presentation"><a role="menuitem" href="#" title="홍보실">홍보실</a></li>
+                            <li role="presentation"><a role="menuitem" href="#" title="찾아오시는 길">찾아오시는 길</a></li>
+                            <li role="presentation"><a role="menuitem" href="#" title="관련사이트">관련사이트</a></li>
+                        </ul>
+                    </li>
+                    <li role="presentation">
+                        <a role="menuitem" id="content_total" href="#" title="전체메뉴">전체메뉴</a>
+                        <ul role="menu" class="secondary_nav mega group" aria-labelledby="content_total">
+                            <li role="presentation">
+                                <a role="menuitem" id="content_total_open_gov" href="http://web.kma.go.kr/info_open/info/open.jsp" title="정보공개">정보공개</a>
+                                <ul role="menu" class="list_unstyled" aria-labelledby="content_total_open_gov">
+                                    <li role="presentation"><a role="menuitem" href="#" title="정보공개">정보공개</a></li>
+                                    <li role="presentation"><a role="menuitem" href="#" title="공공데이터 개방">공공데이터 개방</a></li>
+                                    <li role="presentation"><a role="menuitem" href="#" title="전자민원">전자민원</a></li>
+                                    <li role="presentation"><a role="menuitem" href="#" title="정책실명제">정책실명제</a></li>
+                                    <li role="presentation"><a role="menuitem" href="#" title="청렴자료 공개">청렴자료 공개</a></li>
+                                    <li role="presentation"><a role="menuitem" href="#" title="법령정보">법령정보</a></li>
+                                </ul>
+                            </li>
+                            <li role="presentation">
+                                <a role="menuitem" id="content_total_weather" href="http://www.kma.go.kr/weather/main.jsp" title="날씨">날씨</a>
+                                <ul role="menu" class="list_unstyled" aria-labelledby="content_total_weather">
+                                    <li role="presentation"><a role="menuitem" href="#" title="날씨종합">날씨종합</a></li>
+                                    <li role="presentation"><a role="menuitem" href="#" title="특보, 예보">특보 &sdot; 예보</a></li>
+                                    <li role="presentation"><a role="menuitem" href="#" title="날씨영상">날씨영상</a></li>
+                                    <li role="presentation"><a role="menuitem" href="#" title="바다날씨">바다날씨</a></li>
+                                    <li role="presentation"><a role="menuitem" href="#" title="태풍">태풍</a></li>
+                                    <li role="presentation"><a role="menuitem" href="#" title="황사">황사</a></li>
+                                    <li role="presentation"><a role="menuitem" href="#" title="지진, 화산">지진 &sdot; 화산</a></li>
+                                    <li role="presentation"><a role="menuitem" href="#" title="관측자료">관측자료</a></li>
+                                    <li role="presentation"><a role="menuitem" href="#" title="기후자료">기후자료</a></li>
+                                    <li role="presentation"><a role="menuitem" href="#" title="생활과 산업">생활과 산업</a></li>
+                                </ul>                                
+                            </li>
+                            <li role="presentation">
+                                <a role="menuitem" id="content_total_interact" href="https://web.kma.go.kr/notify/epeople/e_qna.jsp#epeopleFrameFocus" title="참여와 소통">참여와 소통</a>
+                                <ul role="menu" class="list_unstyled" aria-labelledby="content_total_interact">
+                                    <li role="presentation"><a role="menuitem" href="#" title="국민참여마당">국민참여마당</a></li>
+                                    <li role="presentation"><a role="menuitem" href="#" title="날씨이야기">날씨이야기</a></li>
+                                    <li role="presentation"><a role="menuitem" href="#" title="기상사진전">기상사진전</a></li>
+                                    <li role="presentation"><a role="menuitem" href="#" title="설문조사">설문조사</a></li>
+                                </ul>
+                            </li>
+                            <li role="presentation" class="clear">
+                                <a role="menuitem" id="content_total_study" href="https://web.kma.go.kr/notify/epeople/e_qna.jsp#epeopleFrameFocus" title="지식창고">지식창고</a>
+                                <ul role="menu" class="list_unstyled" aria-labelledby="content_total_study">
+                                    <li role="presentation"><a role="menuitem" href="#" title="예보기술">예보기술</a></li>
+                                    <li role="presentation"><a role="menuitem" href="#" title="기상백과">기상백과</a></li>
+                                    <li role="presentation"><a role="menuitem" href="#" title="간행물">간행물</a></li>
+                                    <li role="presentation"><a role="menuitem" href="#" title="날씨배움터">날씨배움터</a></li>
+                                    <li role="presentation"><a role="menuitem" href="#" title="어린이기상교실">어린이기상교실</a></li>
+                                    <li role="presentation"><a role="menuitem" href="#" title="기상청체험학습">기상청체험학습</a></li>
+                                    <li role="presentation"><a role="menuitem" href="#" title="민간위탁교육훈련">민간위탁교육훈련</a></li>
+                                </ul>
+                            </li>
+                            <li role="presentation">
+                                <a role="menuitem" id="content_total_administration" href="http://web.kma.go.kr/communication/encyclopedia/list.jsp" title="행정과 정책">행정과 정책</a>
+                                <ul role="menu" class="list_unstyled" aria-labelledby="content_total_administration">
+                                    <li role="presentation"><a role="menuitem" href="#" title="포토뉴스">포토뉴스</a></li>
+                                    <li role="presentation"><a role="menuitem" href="#" title="공지사항">공지사항</a></li>
+                                    <li role="presentation"><a role="menuitem" href="#" title="보도자료">보도자료</a></li>
+                                    <li role="presentation"><a role="menuitem" href="#" title="채용, 인사">채용 &sdot; 인사</a></li>
+                                    <li role="presentation"><a role="menuitem" href="#" title="국정과제">국정과제</a></li>
+                                    <li role="presentation"><a role="menuitem" href="#" title="날씨경영도우미">날씨경영도우미</a></li>
+                                </ul>
+                            </li>
+                            <li role="presentation">
+                                <a role="menuitem" id="content_total_introduction" href="http://web.kma.go.kr/notify/focus/list.jsp" title="기상청소개">기상청소개</a>
+                                <ul role="menu" class="list_unstyled" aria-labelledby="content_total_introduction">
+                                    <li role="presentation"><a role="menuitem" href="#" title="청/차장소개">청/차장소개</a></li>
+                                    <li role="presentation"><a role="menuitem" href="#" title="미션비전">미션비전</a></li>
+                                    <li role="presentation"><a role="menuitem" href="#" title="조직직원">조직직원</a></li>
+                                    <li role="presentation"><a role="menuitem" href="#" title="주요업무">주요업무</a></li>
+                                    <li role="presentation"><a role="menuitem" href="#" title="소속, 산하기관소개">소속 &sdot; 산하기관소개</a></li>
+                                    <li role="presentation"><a role="menuitem" href="#" title="홍보실">홍보실</a></li>
+                                    <li role="presentation"><a role="menuitem" href="#" title="찾아오시는 길">찾아오시는 길</a></li>
+                                    <li role="presentation"><a role="menuitem" href="#" title="관련사이트">관련사이트</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- main content -->
+    <main id="content" class="l-content">
+        <div class="grid_holder">
+            <div class="grid_outer_9">
+
+                <!-- 왼쪽 칼럼: 그리드 4칸 -->
+                <div class="grid_4">
+
+                    <!-- 특보 -->
+                    <section role="region" class="component padded warning">
+                        <h2 class="component_heading">기상특보</h2>
+                        <nav role="navigation">
+                            <ul class="extra_links">
+                                <li><a href="http://www.kma.go.kr/weather/warning/status.jsp">특보현황 상세보기</a></li>
+                            </ul>
+                        </nav>
+                        <dl>
+                            <dt>2016년 12월 24일 20:00 이후</dt>
+                            <dd>호우주의보 : 제주도 산간</dd>
+                            <dd>강풍주의보 : 제주도, 흑산도, 홍도</dd>
+                        </dl>
+                    </section>
+
+                    <!-- 현재 지역별 날씨 -->
+                    <section role="region" class="component padded current_weather">
+                        <h2 class="component_heading">지역별 <em>현재날씨</em></h2>
+                        <nav role="navigation">
+                            <ul class="extra_links">
+                                <li><a href="#">상세보기</a></li>
+                                <li><a href="#">중기예보</a></li>
+                                <li><a href="#">장기예보</a></li>
+                            </ul>
+                        </nav>
+                        <ul class="list_unstyled">
+                            <li class="heading row">
+                                <span class="region">지역</span>
+                                <span class="weather">날씨</span>
+                                <span class="temp_actual">기온</span>
+                                <span class="temp_censory">체감</span>
+                                <span class="precip">강수</span>
+                            </li>
+                            <li><a class="row" href="#">
+                                <span class="region">서울 &sdot; 경기도</span>
+                                <span class="weather"><i class="meteo clear"></i></span>
+                                <span class="temp_actual">10.0</span>
+                                <span class="temp_censory">8.3</span>
+                                <span class="precip">0%</span>
+                            </a></li>
+                            <li><a class="row" href="#">
+                                <span class="region">강원도</span>
+                                <span class="weather"><i class="meteo cloudy2"></i></span>
+                                <span class="temp_actual">7.8</span>
+                                <span class="temp_censory">5.9</span>
+                                <span class="precip">10%</span>
+                            </a></li>
+                            <li><a class="row" href="#">
+                                <span class="region">충청북도</span>
+                                <span class="weather"><i class="meteo rainy"></i></span>
+                                <span class="temp_actual">9.0</span>
+                                <span class="temp_censory">8.1</span>
+                                <span class="precip">70%</span>
+                            </a></li>
+                            <li><a class="row" href="#">
+                                <span class="region">충청남도</span>
+                                <span class="weather"><i class="meteo rainy"></i></span>
+                                <span class="temp_actual">8.8</span>
+                                <span class="temp_censory">7.8</span>
+                                <span class="precip">100%</span>
+                            </a></li>
+                            <li><a class="row" href="#">
+                                <span class="region">경상북도</span>
+                                <span class="weather"><i class="meteo rainy"></i></span>
+                                <span class="temp_actual">12.1</span>
+                                <span class="temp_censory">10.9</span>
+                                <span class="precip">100%</span>
+                            </a></li>
+                            <li><a class="row" href="#">
+                                <span class="region">경상남도</span>
+                                <span class="weather"><i class="meteo cloudy"></i></span>
+                                <span class="temp_actual">13.1</span>
+                                <span class="temp_censory">11.8</span>
+                                <span class="precip">60%</span>
+                            </a></li>
+                            <li><a class="row" href="#">
+                                <span class="region">전라북도</span>
+                                <span class="weather"><i class="meteo cloudy2"></i></span>
+                                <span class="temp_actual">9.4</span>
+                                <span class="temp_censory">8.0</span>
+                                <span class="precip">40%</span>
+                            </a></li>
+                            <li><a class="row" href="#">
+                                <span class="region">전라남도</span>
+                                <span class="weather"><i class="meteo clear"></i></span>
+                                <span class="temp_actual">11.7</span>
+                                <span class="temp_censory">10.5</span>
+                                <span class="precip">0%</span>
+                            </a></li>
+                            <li><a class="row" href="#">
+                                <span class="region">제주도</span>
+                                <span class="weather"><i class="meteo cloudy"></i></span>
+                                <span class="temp_actual">13.3</span>
+                                <span class="temp_censory">12.1</span>
+                                <span class="precip">0%</span>
+                            </a></li>
+                        </ul>
+                    </section>
+
+                    <!-- 자주 사용하는 메뉴 -->
+                    <section role="region" class="component padded extra_features">
+                        <h2 class="component_heading">더 많은 <em>기상정보</em></h2>
+                        <nav role="navigation">
+                            <ul class="list_inline">
+                                <li><a href="#">지난날씨</a></li>
+                                <li><a href="#">주말날씨</a></li>
+                                <li><a href="#">바다날씨</a></li>
+                                <li><a href="#">산악날씨</a></li>
+                                <li><a href="#">공항날씨</a></li>
+                                <li><a href="#">세계날씨</a></li>
+                                <li><a href="#">지진 &sdot; 해일정보</a></li>
+                                <li><a href="#">홍수 통합정보</a></li>
+                                <li><a href="#">해달뜨고 지는시각</a></li>
+                                <li><a href="#">엘니뇨 &sdot; 라니냐</a></li>
+                                <li><a href="#">밀물 &sdot; 썰물</a></li>
+                            </ul>
+                        </nav>
+                    </section>
+                </div>
+
+                <!-- 중앙 칼럼: 그리드 5칸 -->
+                <div class="grid_5">
+
+                    <!-- 전국 날씨정보 -->
+                    <section role="region" class="component padded meteomap">
+                        <h2 class="component_heading">전국 <em>날씨정보</em></h2>
+
+                        <div class="meteomap_nav group">
+                            <!-- 모드 스위치 버튼 -->
+                            <div role="radiogroup" id="meteomap_switcher">
+                                <input role="radio" type="radio" name="meteomap_mode" id="mode_weather" class="radio active" checked aria-checked="true">
+                                <label for="mode_weather">날씨</label>
+
+                                <input role="radio" type="radio" name="meteomap_mode" id="mode_precip" class="radio" aria-checked="false">
+                                <label for="mode_precip">강수량</label>
+
+                                <input role="radio" type="radio" name="meteomap_mode" id="mode_wind" class="radio" aria-checked="false">
+                                <label for="mode_wind">바람</label>
+                            </div>
+                            <!-- 날짜 선택 필드 -->
+                            <form role="form" id="meteomap_datepicker">
+                                <input type="text" id="meteomap_date" class="styled shadow" readonly aria-live="polite" aria-readonly="true">
+                            </form>
+                        </div>
+
+                        <div class="meteomap_content">
+                            <ul id="meteomap_list" class="mode_weather currentday">
+                                <li class="seoul">
+                                    <a href="#">
+                                        <span>서울</span>
+                                        <span class="data"></span>
+                                    </a>
+                                </li>
+                                <li class="incheon">
+                                    <a href="#">
+                                        <span>인천</span>
+                                        <span class="data"></span>
+                                    </a>
+                                </li>
+                                <li class="suwon">
+                                    <a href="#">
+                                        <span>수원</span>
+                                        <span class="data"></span>
+                                    </a>
+                                </li>
+                                <li class="chuncheon">
+                                    <a href="#">
+                                        <span>춘천</span>
+                                        <span class="data"></span>
+                                    </a>
+                                </li>
+                                <li class="gangreung">
+                                    <a href="#">
+                                        <span>강릉</span>
+                                        <span class="data"></span>
+                                    </a>
+                                </li>
+                                <li class="dokdo">
+                                    <a href="#">
+                                        <span>울릉도<br>독도</span>
+                                        <span class="data"></span>
+                                    </a>
+                                </li>
+                                <li class="baengnyeongdo">
+                                    <a href="#">
+                                        <span>백령도</span>
+                                        <span class="data"></span>
+                                    </a>
+                                </li>
+                                <li class="daejeoun">
+                                    <a href="#">
+                                        <span>대전</span>
+                                        <span class="data"></span>
+                                    </a>
+                                </li>
+                                <li class="seosan">
+                                    <a href="#">
+                                        <span>서산</span>
+                                        <span class="data"></span>
+                                    </a>
+                                </li>
+                                <li class="chungju">
+                                    <a href="#">
+                                        <span>청주</span>
+                                        <span class="data"></span>
+                                    </a>
+                                </li>
+                                <li class="jeonju">
+                                    <a href="#">
+                                        <span>전주</span>
+                                        <span class="data"></span>
+                                    </a>
+                                </li>
+                                <li class="heuksando">
+                                    <a href="#">
+                                        <span>흑산도</span>
+                                        <span class="data"></span>
+                                    </a>
+                                </li>
+                                <li class="gwanju">
+                                    <a href="#">
+                                        <span>광주</span>
+                                        <span class="data"></span>
+                                    </a>
+                                </li>
+                                <li class="yeosu">
+                                    <a href="#">
+                                        <span>여수</span>
+                                        <span class="data"></span>
+                                    </a>
+                                </li>
+                                <li class="mokpo">
+                                    <a href="#">
+                                        <span>목포</span>
+                                        <span class="data"></span>
+                                    </a>
+                                </li>
+                                <li class="daegu">
+                                    <a href="#">
+                                        <span>대구</span>
+                                        <span class="data"></span>
+                                    </a>
+                                </li>
+                                <li class="andong">
+                                    <a href="#">
+                                        <span>안동</span>
+                                        <span class="data"></span>
+                                    </a>
+                                </li>
+                                <li class="pohang">
+                                    <a href="#">
+                                        <span>포항</span>
+                                        <span class="data"></span>
+                                    </a>
+                                </li>
+                                <li class="ulsan">
+                                    <a href="#">
+                                        <span>울산</span>
+                                        <span class="data"></span>
+                                    </a>
+                                </li>
+                                <li class="busan">
+                                    <a href="#">
+                                        <span>부산</span>
+                                        <span class="data"></span>
+                                    </a>
+                                </li>
+                                <li class="changwon">
+                                    <a href="#">
+                                        <span>창원</span>
+                                        <span class="data"></span>
+                                    </a>
+                                </li>
+                                <li class="jeju">
+                                    <a href="#">
+                                        <span>제주</span>
+                                        <span class="data"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section role="region" class="component padded recent_updates">
+                        <h2 class="component_heading">기상청 <em>새 소식</em></h2>
+                        <div id="board_widget">
+                            <nav role="navigation">
+                                <ul class="board_name">
+                                    <li class="active"><a href="#board-1">공지사항</a></li>
+                                    <li><a href="#board-2">보도자료</a></li>
+                                    <li><a href="#board-3">채용 &sdot; 인사</a></li>
+                                    <li><a href="#board-4">정보공개</a></li>
+                                </ul>
+                            </nav>
+                            <div id="board-1" class="board_posts">
+                                <ul class="board list_unstyled">
+                                    <li class="pinned">
+                                        <span class="category">본청</span>
+                                        <a class="page" href="#">2017 국제 기상전문인력 양성 과정 교육생 모집</a>
+                                    </li>
+                                    <li class="pinned">
+                                        <span class="category">본청</span>
+                                        <a class="page" href="#">기상7급 공채 영어능력검정시험 성적 사전 등록/확인</a>
+                                    </li>
+                                    <li>
+                                        <span class="category">대전청</span>
+                                        <a class="page" href="#">대전지방기상청과 함께 "퀴즈로 배우는 기후변화이야기" 이벤트 당첨자안내</a>
+                                    </li>
+                                    <li>
+                                        <span class="category">본청</span>
+                                        <a class="page" href="#">기상관측장비 2017년도 구매계획 공개</a>
+                                    </li>
+                                    <li>
+                                        <span class="category">본청</span>
+                                        <a class="page" href="#">2016년 12월 가뭄 예경보문</a>
+                                    </li>
+                                </ul>
+                                <p class="more"><a class="more" href="#">더 보기</a></p>
+                            </div>
+                            <div id="board-2" class="board_posts">
+                                <ul class="board list_unstyled">
+                                    <li>
+                                        <span class="category">본청</span>
+                                        <a class="page" href="#">[설명자료] 21일(수) 밤~22일(목) 아침 남해안, 제주도 중심 많은 비</a>
+                                    </li>
+                                    <li>
+                                        <span class="category">본청</span>
+                                        <a class="page" href="#">[설명자료] 엘니뇨·라니냐 기준 개선</a>
+                                    <li>
+                                        <span class="category">본청</span>
+                                        <a class="page" href="#">우르릉~쾅!, 천둥번개도 알고 대비합시다!</a>
+                                    </li>
+                                    <li>
+                                        <span class="category">본청</span>
+                                        <a class="page" href="#">[설명자료] 13일(화) 밤~14일(수) 강원영동, 경북북동 지역 중심 많은 눈</a>
+                                    </li>
+                                    <li>
+                                        <span class="category">본청</span>
+                                        <a class="page" href="#">날씨 빅데이터, 정부3.0으로 새로운 길을 찾다.</a>
+                                    </li>
+                                </ul>
+                                <p class="more"><a class="more" href="#">더 보기</a></p>
+                            </div>
+                            <div id="board-3" class="board_posts">
+                                <ul class="board list_unstyled">
+                                    <li>
+                                        <span class="category">본청</span>
+                                        <a class="page" href="#">APEC 기후센터(APCC) 직원채용 공고(마감일자:2016.12.30)</a>
+                                    </li>
+                                    <li>
+                                        <span class="category">제주청</span>
+                                        <a class="page" href="#">제주지방기상청 기간제 근로자(조리원) 채용 재공고(마감일자:2016.12.21)</a>
+                                    </li>
+                                    <li>
+                                        <span class="category">본청</span>
+                                        <a class="page" href="#">(재)한국형수치예보모델개발사업단장 초빙 공고(마감일자:2016.12.23)</a>
+                                    </li>
+                                    <li>
+                                        <span class="category">본청</span>
+                                        <a class="page" href="#">2016년도 제6회 공개채용 연장공고(마감일자:2016.12.13)</a>
+                                    </li>
+                                    <li>
+                                        <span class="category">제주청</span>
+                                        <a class="page" href="#">제주지방기상청 기간제 근로자(조리원) 채용 공고</a>
+                                    </li>
+                                </ul>
+                                <p class="more"><a class="more" href="#">더 보기</a></p>
+                            </div>
+                            <div id="board-4" class="board_posts">
+                                <ul class="board list_unstyled">
+                                    <li>
+                                        <span class="category">주요정책</span>
+                                        <a class="page" href="#">2016년도 성과관리시행계획</a>
+                                    </li>
+                                    <li>
+                                        <span class="category">주요정책</span>
+                                        <a class="page" href="#">2016년도 자체평가계획</a>
+                                    </li>
+                                    <li>
+                                        <span class="category">법령자료</span>
+                                        <a class="page" href="#">정지궤도복합위성 공동개발규정 전문 및 일부개정령</a>
+                                    </li>
+                                    <li>
+                                        <span class="category">법령자료</span>
+                                        <a class="page" href="#">기상산업진흥법 시행령 및 시행규칙 개정전문</a>
+                                    </li>
+                                    <li>
+                                        <span class="category">국회관련</span>
+                                        <a class="page" href="#">2015년 국정감사 주요업무보고</a>
+                                    </li>
+                                </ul>
+                                <p class="more"><a class="more" href="#">더 보기</a></p>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+
+                <div class="grid_9">
+                    <!-- 날씨ON -->
+                    <section role="region" class="component padded official_videos">
+                        <h2 class="component_heading">인터넷 <em>기상방송</em></h2>
+                        <ul class="video_list list_inline">
+                            <li class="video_list_item">
+                                <a class="video_list_link" href="http://www.weather.kr/weatherinfo/today.jsp">
+                                    <img role="presentation" class="img_fluid" src="img/videos/video_thumb1.jpg" alt="날씨정보">
+                                    <div class="mask">
+                                        <h3>날씨정보</h3>
+                                        <p>가장 최근의 날씨정보를 제공합니다.</p> 
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="video_list_item">
+                                <a class="video_list_link" href="http://www.weather.kr/weatherinfo/explanation.jsp">
+                                    <img role="presentation" class="img_fluid" src="img/videos/video_thumb2.jpg" alt="3차원 날씨해설">
+                                    <div class="mask">
+                                        <h3>3차원 날씨해설</h3>
+                                        <p>예보분석관의 해설을 제공합니다.</p>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="video_list_item">
+                                <a class="video_list_link" href="http://www.weather.kr/space/news.jsp">
+                                    <img role="presentation" class="img_fluid" src="img/videos/video_thumb3.jpg" alt="기상청 소식">
+                                    <div class="mask">
+                                        <h3>기상청 소식</h3>
+                                        <p>한 주간의 주요 소식을 제공합니다.</p>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </section>
+                </div>
+            </div>
+
+            <!-- 오른쪽 칼럼: 그리드 3칸 -->
+            <div class="grid_3">
+
+                <!-- 로그인 -->
+                <section role="region" class="component padded login">
+                    <form role="form" id="login_form" class="login_form">
+                        <div class="login_field">
+                            <input type="text" name="user_id" id="user_id" class="shadow" value="" title="아이디를 입력하세요." maxlength="16">
+                            <label for="user_id">아이디</label>
+                        </div>
+                        <div class="login_field">
+                            <input type="password" name="user_password" id="user_password" class="shadow" value="" title="비밀번호를 입력하세요." maxlength="16">
+                            <label for="user_password">비밀번호</label>
+                        </div>
+                        <div class="login_submit">
+                            <input role="button" type="submit" name="user_submit" id="user_submit" title="로그인합니다." value="로그인">
+                        </div>
+                        <div class="login_option">
+                            <input role="checkbox" type="checkbox" name="user_check" id="user_check" class="checkbox" value="1" title="아이디를 저장하실지 선택하세요." aria-checked="false">
+                            <label for="user_check">아이디 저장</label>
+                        </div>
+                        <p class="login_security">아이디와 비밀번호는 개인정보 안전성 확보 조치 기준에 따라 <strong>안전한</strong> 보안서버 방식으로 송수신되고 있습니다.</p>
+                        <nav role="navigation">
+                            <ul class="login_extra_links list_inline">
+                                <li><a href="#">아이디/비밀번호 찾기</a></li>
+                                <li><a href="#">회원가입</a></li>
+                            </ul>
+                        </nav>
+                    </form>
+                </section>
+
+                <!-- 추천 서비스 -->
+                <section class="component padded recommended">
+                    <h2 class="component_heading">추천 <em>서비스</em></h2>
+                    <nav role="navigation">
+                        <ul class="list_unstyled">
+                            <li><a class="recommended_link" href="http://web.kma.go.kr/communication/visit/reservation_info.jsp">
+                                <h3>날씨 체험학습</h3>
+                                <p>관측장비 견학, 기상캐스터 체험 등을 할 수 있습니다.</p>
+                                <img src="img/icons/ui_icon_rocket.svg" alt="날씨 체험학습" width="48" height="48">
+                            </a></li>
+                            <li><a class="recommended_link" href="http://minwon.kma.go.kr/main/main.do">
+                                <h3>기상청 전자민원</h3>
+                                <p>신속하고 편리하게 민원을 제출할 수 있습니다.</p>
+                                <img src="img/icons/ui_icon_ebook.svg" alt="기상청 전자민원" width="48" height="48">
+                            </a></li>
+                            <li><a class="recommended_link" href="http://web.kma.go.kr/service/download_fog.jsp?pdf=fax_fog_201612201730_108_3.pdf">
+                                <h3>안개정보 서비스</h3>
+                                <p>지역별 안개 상세 정보를 pdf로 열람할 수 있습니다<span class=""></span></p>
+                                <img src="img/icons/ui_icon_foggy.svg" alt="안개정보 서비스" width="48" height="48">
+                            </a></li>
+                            <li><a class="recommended_link" href="http://web.kma.go.kr/communication/encyclopedia/list.jsp">
+                                <h3>기상 백과사전</h3>
+                                <p>기상에 관한 용어들의 뜻과 참고자료가 준비돼 있습니다.</p>
+                                <img src="img/icons/ui_icon_book.svg" alt="기상 백과사전" width="48" height="48">
+                            </a></li>
+                        </ul>
+                    </nav>
+                </section>
+
+                <!-- 기상청 SNS -->
+                <section class="component padded social">
+                    <h2 class="component_heading">기상청 <em>SNS</em></h2>
+                    <nav role="navigation">
+                        <ul class="list_unstyled">
+                            <li><a role="button" class="icon-naverblog" href="http://blog.naver.com/kma_131" title="기상청 블로그">
+                                <img src="img/icons/social_naverblog.svg" width="40" height="40" alt="블로그">
+                                <span class="sr_only">블로그</span>
+                            </a></li>
+                            <li><a role="button" class="icon-facebook" href="https://www.facebook.com/kmaskylove" title="기상청 페이스북">
+                                <img src="img/icons/social_facebook.svg" width="40" height="40" alt="페이스북">
+                                <span class="sr_only">페이스북</span>
+                            </a></li>
+                            <li><a role="button" class="icon-twitter" href="https://twitter.com/kma_skylove" title="기상청 트위터">
+                                <img src="img/icons/social_twitter.svg" width="40" height="40" alt="트위터">
+                                <span class="sr_only">트위터</span>
+                            </a></li>
+                            <li><a role="button" class="icon-youtube" href="https://www.youtube.com/user/KMA0365best" title="기상청 유튜브">
+                                <img src="img/icons/social_youtube.svg" width="40" height="40" alt="유튜브">
+                                <span class="sr_only">유튜브</span>
+                            </a></li>
+                        </ul>
+                    </nav>
+                </section>
+
+                <!-- 관련기관 바로가기 -->
+                <section id="bookmarks" class="component padded bookmarks">
+                    <h2 class="component_heading">관련기관 <em>바로가기</em></h2>
+                    <nav role="navigation">
+                        <ul class="list_inline">
+                            <li>
+                                <select role="listbox" name="b_affiliated" id="b_affiliated">
+                                    <option role="option" disabled selected>기상청 소속기관</option>
+                                    <option role="option" value="http://web.kma.go.kr/aboutkma/intro/metropolitan/index.jsp">수도권기상청</option>
+                                    <option role="option" value="http://web.kma.go.kr/aboutkma/intro/busan/index.jsp">부산지방기상청</option>
+                                    <option role="option" value="http://web.kma.go.kr/aboutkma/intro/gwangju/index.jsp">광주지방기상청</option>
+                                    <option role="option" value="http://web.kma.go.kr/aboutkma/intro/daejeon/index.jsp">대전지방기상청</option>
+                                    <option role="option" value="http://web.kma.go.kr/aboutkma/intro/gangwon/index.jsp">강원지방기상청</option>
+                                    <option role="option" value="http://web.kma.go.kr/aboutkma/intro/jeju/index.jsp">제주지방기상청</option>
+                                    <option role="option" value="http://web.kma.go.kr/aboutkma/intro/cheongju/index.jsp">청주지방기상청</option>
+                                    <option role="option" value="http://web.kma.go.kr/aboutkma/intro/jeonju/index.jsp">전주지방기상청</option>
+                                    <option role="option" value="http://web.kma.go.kr/aboutkma/intro/daegu/index.jsp">대구지방기상청</option>
+                                    <option role="option" value="http://nmsc.kma.go.kr">국가기상위성센터</option>
+                                    <option role="option" value="http://kama.kma.go.kr/">항공기상청</option>
+                                    <option role="option" value="http://www.nimr.go.kr/">국립기상과학원</option>
+                                    <option role="option" value="http://radar.kma.go.kr/index.do">기상레이더센터</option>
+                                    <option role="option" value="http://typ.kma.go.kr/index.jsp">국가태풍센터</option>
+                                    <option role="option" value="http://web.kma.go.kr/aboutkma/intro/supercom/index.jsp">국가기상슈퍼컴퓨터센터</option>
+                                </select>
+                            </li>
+                            <li>
+                                <select role="listbox" name="b_administrative" id="b_administrative">
+                                    <option role="option" disabled selected>주요행정기관</option>
+                                    <option role="option" value="청와대">청와대</option>
+                                    <option role="option" value="국무총리실">국무총리실</option>
+                                    <option role="option" value="감사원">감사원</option>
+                                    <option role="option" value="국가정보원">국가정보원</option>
+                                    <option role="option" value="방송통신위원회">방송통신위원회</option>
+                                    <option role="option" value="국가인권위원회">국가인권위원회</option>
+                                    <option role="option" value="공정거래위원회">공정거래위원회</option>
+                                    <option role="option" value="금융위원회">금융위원회</option>
+                                    <option role="option" value="국민권익위원회">국민권익위원회</option>
+                                    <option role="option" value="국회사무처">국회사무처</option>
+                                    
+                                    <optgroup label="17부">
+                                        <option role="option" value="기획재정부">기획재정부</option>
+                                        <option role="option" value="미래창조과학부">미래창조과학부</option>
+                                        <option role="option" value="교육부">교육부</option>
+                                        <option role="option" value="외교부">외교부</option>
+                                        <option role="option" value="통일부">통일부</option>
+                                        <option role="option" value="법무부">법무부</option>
+                                        <option role="option" value="국방부">국방부</option>
+                                        <option role="option" value="행정자치부">행정자치부</option>
+                                        <option role="option" value="문화체육관광부">문화체육관광부</option>
+                                        <option role="option" value="농림축산식품부">농림축산식품부</option>
+                                        <option role="option" value="산업통상자원부">산업통상자원부</option>
+                                        <option role="option" value="보건복지부">보건복지부</option>
+                                        <option role="option" value="환경부">환경부</option>
+                                        <option role="option" value="고용노동부">고용노동부</option>
+                                        <option role="option" value="여성가족부">여성가족부</option>
+                                        <option role="option" value="국토교통부">국토교통부</option>
+                                        <option role="option" value="해양수산부">해양수산부</option>
+                                    </optgroup>
+                                    
+                                    <optgroup label="5처">
+                                        <option role="option" value="국민안전처">국민안전처</option>
+                                        <option role="option" value="인사혁신처">인사혁신처</option>
+                                        <option role="option" value="법제처">법제처</option>
+                                        <option role="option" value="국가보훈처">국가보훈처</option>
+                                        <option role="option" value="식품의약품안전처">식품의약품안전처</option>
+                                    </optgroup>
+                                    
+                                    <optgroup label="16청">
+                                        <option role="option" value="국세청">국세청</option>
+                                        <option role="option" value="관세청">관세청</option>
+                                        <option role="option" value="조달청">조달청</option>
+                                        <option role="option" value="통계청">통계청</option>
+                                        <option role="option" value="검찰청">검찰청</option>
+                                        <option role="option" value="병무청">병무청</option>
+                                        <option role="option" value="방위사업청">방위사업청</option>
+                                        <option role="option" value="경찰청">경찰청</option>
+                                        <option role="option" value="문화재청">문화재청</option>
+                                        <option role="option" value="농촌진흥청">농촌진흥청</option>
+                                        <option role="option" value="산림청">산림청</option>
+                                        <option role="option" value="중소기업청">중소기업청</option>
+                                        <option role="option" value="특허청">특허청</option>
+                                        <option role="option" value="기상청">기상청</option>
+                                        <option role="option" value="행정중심복합도시건설청">행정중심복합도시건설청</option>
+                                        <option role="option" value="새만금개발청">새만금개발청</option>
+                                    </optgroup>     
+                                </select>
+                            </li>
+                            <li>
+                                <select role="listbox" name="b_related" id="b_related">
+                                    <option role="option" disabled selected>방재유관기관</option>
+                                    <option role="option" value="http://www.nema.go.kr/">소방방재청</option>
+                                    <option role="option" value="http://119.seoul.go.kr/">서울종합방재센터</option>
+                                    <option role="option" value="http://www.ndmi.go.kr">국립재난안전연구원</option>
+                                    <option role="option" value="http://www.hrfco.go.kr/">한강홍수통제소</option>
+                                    <option role="option" value="http://www.snskorea.go.kr/intro/nation_03.view">중앙재난안전대책본부</option>
+                                    <option role="option" value="http://www.airkorea.or.kr">대기오염도실시간공개</option>
+                                    <option role="option" value="http://www.wamis.go.kr">국가수자원관리종합정보시스템</option>
+                                </select>
+                            </li>
+                            <li>
+                                <select role="listbox" name="b_meteo" id="b_meteo">
+                                    <option role="option" disabled selected>기상관련단체</option>
+                                    <option role="option" value="http://www.kmipa.or.kr/">한국기상산업진흥원</option>
+                                    <option role="option" value="">한국기상기후아카데미</option>
+                                    <option role="option" value="http://www.apcc21.org/main.do?lang=en">APEC기후센터</option>
+                                    <option role="option" value="https://www.kiaps.org/main.do">한국형수치예보모델개발사업단</option>
+                                </select>
+                            </li>
+                            <li>
+                                <select role="listbox" name="b_international" id="b_international">
+                                    <option disabled selected>해외 기상청</option>
+                                    <option role="option" value="http://www.weather.gov">미국 기상청</option>
+                                    <option role="option" value="http://www.jma.go.jp">일본 기상청</option>
+                                    <option role="option" value="http://www.cma.gov.cn/cma_new/">중국 기상청</option>
+                                    <option role="option" value="http://www.metoffice.gov.uk/">영국 기상청</option>
+                                    <option role="option" value="http://www.meteo.fr/e_index.html">프랑스 기상청</option>
+                                    <option role="option" value="http://www.wmo.int">세계기상기구WMO</option>
+                                </select>
+                            </li>
+                        </ul>
+                    </nav>
+                </section>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- footer -->
+    <footer role="contentinfo" id="footer" class="footer">
+
+        <div class="grid_holder">
+
+            <div class="l-left">
+                <nav role="navigation" class="footer_links">
+                    <ul class="list_inline">
+                        <li><a href="#">개인정보 처리방침</a></li>
+                        <li><a href="#">이용안내</a></li>
+                        <li><a href="#">저작권보호 및 정책</a></li>
+                        <li><a href="#">웹접근성정책</a></li>
+                        <li><a href="#">홈페이지 오류 &sdot; 건의</a></li>
+                        <li><a href="#">전화번호 안내</a></li>
+                        <li><a href="#">부서 &sdot; 직원찾기</a></li>
+                        <li><a href="#">뷰어다운로드</a></li>
+                    </ul>
+                </nav>
+                <address class="address">
+                    우. 07062 서울시 동작구 여의대방로16길 61  대표전화 (02)2181-0900 (평일 9:00~18:00, 야간휴일은 당직실 연결)<br>본 사이트에 게재된 이메일 주소가 자동 수집되는 것을 거부하며, 이를 위반시 정보통신망법에 의해 처벌됨을 유념하시기 바랍니다.
+                </address>
+                <p class="copyright">Copyright © 2009 KMA. All Rights RESERVED.</p>
+            </div>
+
+            <div class="l-right">
+                <nav role="navigation">
+                    <ul class="list_unstyled footer_banner">
+                        <li>
+                            <a href="http://web.kma.go.kr/global/footer/copyright.jsp">
+                                <img src="img/opencode_1.jpg" alt="공공누리 공공저작물 자유이용허락">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">기상콜센터 전국 국번없이 <mark>131</mark></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+        </div>        
+    </footer>
+
+	<!-- JavaScripts -->
+    <script type="text/javascript" src="json/meteo_data.json"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+</body>
+
+</html>
