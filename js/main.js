@@ -78,9 +78,9 @@
             min: 1,
             max: 1.3
         };
-        var $root: $( "body" );
-        var $zoomIn: $( "#zoom_in" );
-        var $zoomOut: $( "#zoom_out" );
+        var $root = $( "body" );
+        var $zoomIn = $( "#zoom_in" );
+        var $zoomOut = $( "#zoom_out" );
 
         $zoomIn.on( "click", function( event ) {
             event.preventDefault();
@@ -102,8 +102,8 @@
 
             $root.css({
                 "zoom": zoom.current,
-                "moz-transform" = "scale(" + zoom.current + ")";
-                "moz-transform-origin" = "50% top";
+                "moz-transform": "scale(" + zoom.current + ")",
+                "moz-transform-origin": "50% top"
             });
 
             if ( isIE ) {
@@ -111,7 +111,7 @@
                 $root.css( "left", offsetX + "px" );
             }
         }
-    }();
+    })();
 
     /**
      * 메테오 맵에 기상 데이터를 입력
