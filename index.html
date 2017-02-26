@@ -15,7 +15,6 @@
 	<meta name="author" content="KMA">
 	<meta name="robots" content="index, follow">
 	<!-- CSS -->
-	<link rel="stylesheet" type="text/css" href="css/normalize.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="plugins/jquery-ui/jquery-ui.min.css">
     <link rel="stylesheet" type="text/css" href="plugins/jquery-ui/jquery-ui.theme.css">
@@ -74,14 +73,11 @@
 
                 <!-- 검색 -->
                 <div class="l-right cell">
-                    <form role="search" id="search_dictionary" class="global_search" method="post" action="http://web.kma.go.kr/search/kmaSearch.jsp">
-                        <fieldset>
-                            <legend class="sr_only">통합 검색</legend>
-                            <div class="view">
-                                <input type="text" id="input_keyword1" name="keyword" class="inputbase styled shadow" title="검색어 입력"> 
-                                <input role="button" type="submit" class="styled" value="검색">
-                            </div>
-                        </fieldset>
+                    <form role="search" id="search_dictionary" class="global_search" method="post" action="http://web.kma.go.kr/search/kmaSearch.jsp" aria-label="global search">
+                        <div class="view">
+                            <input type="text" id="input_keyword1" name="keyword" class="inputbase styled shadow" title="검색어 입력"> 
+                            <input role="button" type="submit" class="styled" value="검색">
+                        </div>
                     </form>
                 </div>
 
