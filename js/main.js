@@ -1,8 +1,4 @@
-/*!
- * 대한민국 기상청(포트폴리오 데모) JavaScript
- * @Author: TSL
- * @License: Custom License
- */
+/*! 대한민국 기상청(포트폴리오 데모) JavaScript */
 
 ( function( window, document, $, undefined ) {
 
@@ -15,19 +11,6 @@
             $( this ).attr( "src", $( this ).attr( "src" ).replace( ".svg", ".png" ) );
         });
     }
-
-    // 메테오 맵을 2016년 12월 23일 기준으로 활성화 (포트폴리오 전용 설정)
-    var today = "2016-12-23";
-    var todayUnix = new Date( today ).getTime();
-    updateMeteoMap( today );
-
-    // 날씨-강수량-바람 스위치 버튼을 활성화
-    var $meteomap_toggler = $( "#meteomap_switcher" );
-    var meteomap_list = document.getElementById( "meteomap_list" );
-
-    $meteomap_toggler.on( "change", "input", function() {
-        toggleMeteoMap( this.id, true );
-    });
 
     // Datepicker를 이용한 날씨 데이터 로드
     // jQuery datepicker API: http://api.jqueryui.com/1.11/datepicker/
@@ -50,7 +33,7 @@
         yearSuffix: "년"
     });
 
-    // 타겟 요소에 datepicker 적용
+    // 날씨 맵의 날짜 선택칸에 datepicker 적용
     $( "#meteomap_date" )
         .datepicker({
             showOn: "button",
@@ -62,20 +45,6 @@
                 var isoDate = [obj.currentYear, obj.currentMonth + 1, obj.currentDay].join("-");
 
                 updateMeteoMap( isoDate );
-
-                // 기본 날짜보다 미래의 날짜를 선택할 경우
-                var isFuture = new Date( isoDate ).getTime() > todayUnix;
-
-                $( "#mode_precip, #mode_wind" )
-                    .prop( "disabled", isFuture ) // 강수량과 풍향풍속 모드를 비활성화
-                    .addClass( "disabled" ); // 스타일링용 클래스 부여
-                
-                if ( isFuture ) {
-                    $( "#mode_weather" ).trigger( "click" ); // 날씨 모드로 강제 전환
-                }
-                else {
-                    $( "#mode_precip, #mode_wind" ).removeClass( "disabled" ); // 스타일링 초기화
-               }
             }
         })
         // 기본 날짜를 2016년 12월 24일로 고정 (포트폴리오 데모 전용)
@@ -92,74 +61,69 @@
 
     // 언어, 관련기관 바로가기에 jQuery selectmenu 적용
     // jQuery selectmenu API: https://api.jqueryui.com/selectmenu/
-    $( "#language, #bookmarks select" )
-        .selectmenu({
-            change: function( event, data ) {
-                // 항목을 클릭하면 해당 사이트로 이동
-                if ( data.item.value !== "" )
-                    window.location = data.item.value;
-            }
-
-        });
+    $( "#language, #bookmarks select" ).selectmenu({
+        change: function( event, data ) {
+            // 항목을 클릭하면 해당 사이트로 이동
+            if ( data.item.value ) window.location = data.item.value;
+        }
+    });
 
     $( "#b_administrative" ).selectmenu( "menuWidget" ).addClass( "select_overflow" );
 
-    // 아이디, 비밀번호에 글자를 입력하면 라벨을 숨김
-    $( "#user_id, #user_password" ).on( "keydown keyup keypress blur", function() {
-        placeholderLabel( $(this) );
-    });
-
-    /**
-     * 스크린 확대 및 축소
-     */
-    var zoomScreen = function() {
-        this.current = 1;
-        this.interval = 0.1;
-        this.min = 1;
-        this.max = 1.3;
-        this.root = document.body;
-        this.zoomInButton = document.getElementById( "zoom_in" );
-        this.zoomOutButton = document.getElementById( "zoom_out" );
-
-        var _ = this;
-
-        this.zoomInButton.onclick = function() {
-            _.zoom( true );
+    // 스크린 확대 및 축소
+    (function zoomScreen() {
+        var zoom = {
+            current: 1,
+            interval: 0.1,
+            min: 1,
+            max: 1.3
         };
-        this.zoomOutButton.onclick = function() {
-            _.zoom( false );
-        };
-    };
+        var $root: $( "body" );
+        var $zoomIn: $( "#zoom_in" );
+        var $zoomOut: $( "#zoom_out" );
 
-    zoomScreen.prototype.zoom = function( boolean ) {
-        if ( boolean && this.current < this.max ) {
-            this.current += this.interval;
-        }
-        else if ( !boolean && this.current > this.min ) {
-            this.current -= this.interval;
-        }
-        else {
-            return;
-        }
+        $zoomIn.on( "click", function( event ) {
+            event.preventDefault();
+            zoom( true );
+        });
+        $zoomOut.on( "click", function( event ) {
+            event.preventDefault();
+            zoom( false );
+        });
 
-        this.root.style.zoom = this.current;
-        this.root.style.MozTransform = "scale(" + this.current + ")";
-        this.root.style.MozTransformOrigin = "50% top";
+        function zoom( bln ) {
+            if ( bln && zoom.current < zoom.max ) {
+                zoom.current += zoom.interval;
+            } else if ( !bln && zoom.current > zoom.min ) {
+                zoom.current -= zoom.interval;
+            } else {
+                return;
+            }
 
-        if ( isIE ) {
-            console.log(true);
-            var offsetX = window.innerWidth * ( 1 - this.current ) / 2;
-            this.root.style.left = offsetX + "px";
+            $root.css({
+                "zoom": zoom.current,
+                "moz-transform" = "scale(" + zoom.current + ")";
+                "moz-transform-origin" = "50% top";
+            });
+
+            if ( isIE ) {
+                var offsetX = window.innerWidth * ( 1 - zoom.current ) / 2;
+                $root.css( "left", offsetX + "px" );
+            }
         }
-    };
-
-    new zoomScreen();
+    }();
 
     /**
      * 메테오 맵에 기상 데이터를 입력
      * 기상 데이터 위치 ../json/meteo_data.json
      * @param {string} dateString - 출력할 데이터의 날짜. ISOdate 형식으로 기입.
      */
+
+    // 메테오 맵을 2016년 12월 23일 기준으로 활성화 (포트폴리오 전용 설정)
+    var today = "2016-12-23";
+    var todayUnix = new Date( today ).getTime();
+    updateMeteoMap( today );
+
     function updateMeteoMap( dateString ) {
         var container = document.getElementById( "meteomap_list" );
         var items = container.children;
@@ -180,6 +144,28 @@
         function applyData( obj ) {
             var target, location;
             var weather, tempAvg, tempMax, tempMin, precip, windDir, windSpeed;
+            var dataExists = {
+                weather: true,
+                temperature: true,
+                precipitation: true,
+                wind: true
+            };
+            var radio = {
+                weather: document.getElementById( "mode_weather" ),
+                precipitation: document.getElementById( "mode_precip" ),
+                wind: document.getElementById( "mode_wind" )
+            };
+
+            // 주어진 날짜에 맞는 데이터가 있는지 확인
+            dataExists.weather = obj.hasOwnProperty( "weather" );
+            dataExists.temperature = obj.hasOwnProperty( "temperature" );
+            dataExists.precipitation = obj.hasOwnProperty( "precipitation" );
+            dataExists.wind = obj.hasOwnProperty( "wind" );
+
+            // 데이터의 유무에 따라 라디오 버튼 활성 또는 비활성화
+            toggleRadio( radio.weather, dataExists.weather );
+            toggleRadio( radio.precipitation, dataExists.precipitation );
+            toggleRadio( radio.wind, dataExists.wind );
 
             for ( var i = 0, j = items.length; i < j; i++ ) {
                 target = items[i].querySelector(".data");
@@ -187,13 +173,14 @@
 
                 emptyElement( target );
 
-                if ( obj.hasOwnProperty( "weather" ) ) {
+                if ( dataExists.weather ) {
                     whether = document.createElement( "i" );
                     whether.className = "meteo " + obj.weather[location] || "null";
 
                     target.appendChild( whether );
                 }
-                if ( obj.hasOwnProperty( "temperature" ) ) {
+
+                if ( dataExists.temperature ) {
                     tempAvg = document.createElement( "span" );
                     tempMax = document.createElement( "span" );
                     tempMin = document.createElement( "span" );
@@ -208,14 +195,16 @@
                     target.appendChild( tempMax );
                     target.appendChild( tempMin );
                 }
-                if ( obj.hasOwnProperty( "precipitation" ) ) {
-                    precip = document.createElement( "i" );
+
+                if ( dataExists.precipitation ) {
+                    precip = document.createElement( "span" );
                     precip.className = "precip";
                     precip.appendChild( document.createTextNode( obj.precipitation[location] || "" ) );
 
                     target.appendChild( precip );
                 }
-                if ( obj.hasOwnProperty( "wind" ) ) {
+
+                if ( dataExists.wind ) {
                     windDir = document.createElement( "i" );
                     windSpeed = document.createElement( "span" );
                     windDir.className = "wind_dir " + obj.wind[location].dir || "null";
@@ -225,12 +214,23 @@
                     target.appendChild( windDir );
                     target.appendChild( windSpeed );
                 }
+            }
+        }
 
-                function emptyElement( el ) {
-                    while ( el.lastChild ) {
-                        el.removeChild( el.lastChild );
-                    }
-                }
+        function toggleRadio( radio, bln ) {
+            if ( bln ) {
+                $( radio ).removeClass( "disabled" );
+            } else {
+                $( radio ).addClass( "disabled" );
+            }
+
+            radio.disabled = !bln;
+            radio.setAttribute( "aria-disabled", !bln );
+        }
+
+        function emptyElement( el ) {
+            while ( el.lastChild ) {
+                el.removeChild( el.lastChild );
             }
         }
 
@@ -246,12 +246,21 @@
      * @param {string} mode - 표시할 데이터의 종류. "weather", "precip", "wind" 중 선택.
      * @param {boolean} isToday - 기본 날짜와 같은지 표시
      */ 
+
+    // 날씨-강수량-바람 스위치 버튼을 활성화
+    var $meteomap_toggler = $( "#meteomap_switcher" );
+    var meteomap_list = document.getElementById( "meteomap_list" );
+
+    $meteomap_toggler.on( "change", "input", function() {
+        toggleMeteoMap( this.id, true );
+    });
+
     function toggleMeteoMap( mode, isToday ) {
         var prevClass = meteomap_list.className.replace(/(mode+\S*)(.*)/g, "$1");
         var newClass = mode + ( isToday ? " currentday" : "" );
 
-        $( document.getElementById( prevClass ) ).removeClass( "active" ).attr( "aria-checked", "false" );
-        $( document.getElementById( mode ) ).addClass( "active" ).attr( "aria-checked", "true" );
+        $( "#" + prevClass ).removeClass( "active" ).attr( "aria-checked", "false" );
+        $( "#" + mode ).addClass( "active" ).attr( "aria-checked", "true" );
         meteomap_list.className = newClass;
     }
 
@@ -259,6 +268,11 @@
      * 로그인 폼 placeholder 트릭
      * @param {string} dateString - 출력할 데이터의 날짜. ISOdate 형식으로 기입.
      */
+    // 아이디, 비밀번호에 글자를 입력하면 라벨을 숨김
+    $( "#user_id, #user_password" ).on( "keydown keyup keypress blur", function() {
+        placeholderLabel( $(this) );
+    });
+
     function placeholderLabel( $textField ) {
         $textField.val() === ""
             ? $textField.next( "label" ).show()
