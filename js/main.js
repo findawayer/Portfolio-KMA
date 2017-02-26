@@ -161,37 +161,83 @@
      * @param {string} dateString - 출력할 데이터의 날짜. ISOdate 형식으로 기입.
      */
     function updateMeteoMap( dateString ) {
-        var dataObj = data[dateString];
+        var container = document.getElementById( "meteomap_list" );
+        var items = container.children;
+        var dataPath = "json/meteo.json";
+        var failedText = "불러오기에 실패했습니다.<br>다시 시도해 주세요.";
 
-        if ( !dataObj ) {
-            throw new Error( "선택한 날짜의 기상정보가 존재하지 않습니다." );
-            return;
+        $.ajax({
+            url: dataPath,
+            dataType: "json",
+            success: function( dataset ) {
+                applyData( dataset[dateString] );
+            },
+            error: function() {
+                notifyFailure( failedText );
+            }
+        });
+
+        function applyData( obj ) {
+            var target, location;
+            var weather, tempAvg, tempMax, tempMin, precip, windDir, windSpeed;
+
+            for ( var i = 0, j = items.length; i < j; i++ ) {
+                target = items[i].querySelector(".data");
+                location = items[i].className;
+
+                emptyElement( target );
+
+                if ( obj.hasOwnProperty( "weather" ) ) {
+                    whether = document.createElement( "i" );
+                    whether.className = "meteo " + obj.weather[location] || "null";
+
+                    target.appendChild( whether );
+                }
+                if ( obj.hasOwnProperty( "temperature" ) ) {
+                    tempAvg = document.createElement( "span" );
+                    tempMax = document.createElement( "span" );
+                    tempMin = document.createElement( "span" );
+                    tempAvg.className = "temp_avg";
+                    tempMax.className = "temp_max";
+                    tempMin.className = "temp_min";
+                    tempAvg.appendChild( document.createTextNode( obj.temperature[location].avg || "" ) );
+                    tempMax.appendChild( document.createTextNode( obj.temperature[location].max || "" ) );
+                    tempMin.appendChild( document.createTextNode( obj.temperature[location].min || "" ) );
+
+                    target.appendChild( tempAvg );
+                    target.appendChild( tempMax );
+                    target.appendChild( tempMin );
+                }
+                if ( obj.hasOwnProperty( "precipitation" ) ) {
+                    precip = document.createElement( "i" );
+                    precip.className = "precip";
+                    precip.appendChild( document.createTextNode( obj.precipitation[location] || "" ) );
+
+                    target.appendChild( precip );
+                }
+                if ( obj.hasOwnProperty( "wind" ) ) {
+                    windDir = document.createElement( "i" );
+                    windSpeed = document.createElement( "span" );
+                    windDir.className = "wind_dir " + obj.wind[location].dir || "null";
+                    windSpeed.className = "wind_spd";
+                    windSpeed.appendChild( document.createTextNode( obj.wind[location].speed || "" ) );
+
+                    target.appendChild( windDir );
+                    target.appendChild( windSpeed );
+                }
+
+                function emptyElement( el ) {
+                    while ( el.lastChild ) {
+                        el.removeChild( el.lastChild );
+                    }
+                }
+            }
         }
 
-        var items = document.getElementById( "meteomap_list" ).children;
-
-        for ( var i = 0, j = items.length; i < j; i++ ) {
-            var ret = '';
-            var location = items[i].className;
-
-            if ( dataObj.hasOwnProperty( "weather" ) ) {
-                ret += '<i class="meteo ' + ( dataObj.weather[location] || 'null' ) + '"></i>';
-            }
-            if ( dataObj.hasOwnProperty( "temperature" ) ) {
-                ret += '<span class="temp_avg">' + ( dataObj.temperature[location].avg || '' ) + '</span>'
-                     + '<span class="temp_max">' + ( dataObj.temperature[location].max || '' ) + '</span>'
-                     + '<span class="temp_min">' + ( dataObj.temperature[location].min || '' ) + '</span>';
-            }
-            if ( dataObj.hasOwnProperty( "precipitation" ) ) {
-                ret += '<span class="precip">' + ( dataObj.precipitation[location] || '' ) + '</span>';
-            }
-            if ( dataObj.hasOwnProperty( "wind" ) ) {
-                ret += '<i class="wind_dir ' + ( dataObj.wind[location].dir || 'null' ) + '"></i>'
-                     + '<span class="wind_spd">' + ( dataObj.wind[location].speed || '' ) + '</span>';
-            }
-
-            // li > a > span.data 위치에 HTML을 삽입
-            items[i].children[0].children[1].innerHTML = ret;
+        function notifyFailure( text ) {
+            var message = document.createElement( "p" );
+            message.appendChild( document.createTextNode( text ) );
+            container.appendChild( message );
         }
     }
 
