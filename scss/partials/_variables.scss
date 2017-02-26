@@ -1,0 +1,20 @@
+@charset "UTF-8";
+
+// 타이포그래피
+$base-font: system-ui, Arial, Dotum, sans-serif;
+$base-font-en: system-ui, sans-serif;
+$base-font-ja: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Osaka, "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+$base-font-zn: Tahoma, Arial, Helvetica, "Microsoft YaHei New", "Microsoft Yahei", "微软雅黑", 宋体, SimSun, STXihei, "华文细黑", sans-serif;
+$base-font-size: 12px;
+$base-font-weight: 400;
+$base-line-height: 1.6;
+$base-tracking: -0.03em;
+$base-font-color: #161616;
+
+// 색상
+$accent: #30a3da;
+$border-color: #e3e3e3;
+$ui-border-color: #d2d2d2;
+
+// 세부 설정
+$radius: 0.25em;

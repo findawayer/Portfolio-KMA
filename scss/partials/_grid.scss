@@ -1,0 +1,41 @@
+@charset "UTF-8";
+
+/*--------------------------------------------------
+  그리드
+--------------------------------------------------*/
+
+$grid-columns: 12;
+$grid-width: 70px;
+$grid-gap: 20px;
+
+.grid_holder {
+    width: 1080px;
+    margin-left: auto;
+    margin-right: auto;
+
+    @include clearfix;
+}
+
+@for $i from 1 through $grid-columns {
+    .grid_#{$i} {
+        float: left;
+        margin: $grid-gap / 2;
+    }
+}
+
+@for $i from 1 through $grid-columns {
+    .grid_#{$i} {
+        width: ($grid-width + $grid-gap) * $i - $grid-gap
+    }
+}
+
+[class^="grid_outer_"] {
+    float: left;
+    margin: 0;
+}
+
+@for $i from 1 through $grid-columns {
+    .grid_outer_#{$i} {
+        width: ($grid-width + $grid-gap) * $i
+    }
+}

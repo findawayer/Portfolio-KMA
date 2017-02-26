@@ -1,0 +1,960 @@
+@charset "UTF-8";
+
+/*--------------------------------------------------
+  테마
+  - 사이트 전반의 스타일링을 정의합니다.
+--------------------------------------------------*/
+
+/* 레이아웃
+   -------------------------------------------------- */
+
+/* 헬퍼 클래스 */
+.l-left {
+    float: left;
+}
+
+.l-right {
+    float: right;
+}
+
+/* 헤더 */
+.l-header {
+    // padding-top: 10px;
+    position: relative;
+    z-index: 1;
+}
+
+.l-main_header {
+    height: 60px;
+}
+
+/* 컨텐츠 */
+.l-content {
+    padding: 10px 0;
+    min-height: 80vh;
+}
+
+/* 헤더
+   -------------------------------------------------- */
+
+/* 컨테이너 */
+#header {
+    border-bottom: 1px solid $border-color;
+}
+
+/* 서브헤더 */
+#sub_header {
+    background: whitesmoke;
+    padding: 5px 0;
+
+    .cell {
+        height: 32px;
+        padding: 0 15px;
+        position: relative;
+
+        &.l-left + .l-left::before,
+        &.l-right + .l-right::before {
+            background: shade($border-color, 10);
+            display: block;
+            width: 1px;
+            height: 16px;
+            position: absolute;
+            top: 8px;
+            content: "";
+        }
+        &.l-left + .l-left::before {
+            left: 0;
+        }
+        &.l-right + .l-right::before {
+            right: 0;
+        }
+    }
+
+    .navset {
+        li + li {
+            margin-left: 15px;
+        }
+
+        a {
+            color: #8a8d90;
+            display: inline-block;
+            height: 32px;
+            line-height: 32px;  
+            text: {
+                align: center;
+                decoration: none;
+            }
+        }
+    }
+
+    input,
+    select {
+        margin: 0;
+    }
+}
+
+.interlanguage {
+    .ui-button {
+        background: white !important;
+        color: $base-font-color !important;
+        width: 80px !important;
+        margin: 0;
+        padding: 6px 8px 7px 10px; // container height -> 32px, text height -> 19px
+        @include text-scale(1);
+    }
+}
+
+.global_search {
+    .view {
+        width: 20em;
+        position: relative;
+    }
+
+    input[type="text"] {
+        width: 100%;
+    }
+
+    input[type="submit"] {
+        @include border-top-left-radius(0);
+        @include border-bottom-left-radius(0);
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 0;
+    }
+}
+
+/* 메인 헤더 */
+#site_logo {
+    display: table;
+    height: 60px;
+    table-layout: fixed;
+
+    > * {
+        display: table-cell;
+        vertical-align: middle; /* 다른 높이의 로고를 넣어도 세로로 가운데 정렬 */
+    }
+
+    img {
+        vertical-align: middle; /* img의 불필요한 margin 제거 */
+    }
+
+    .spacer {
+        width: 12px;
+    }
+}
+
+/* 드랍다운 내비게이션 메뉴 */
+.primary_nav {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    @include fix-inline-items;
+
+    > li {
+        display: inline-block;
+        position: relative;
+        vertical-align: top;
+
+        > a {
+            display: inline-block;
+            margin: 0 10px;
+            padding: 0 10px;
+            @include text-scale(2);
+            font-weight: bold;
+            line-height: 60px;
+            color: inherit;
+
+            &:hover,
+            &:focus {
+                text-decoration: none;
+            }
+
+            > img {
+                vertical-align: middle;
+                position: relative;
+                top: -3px;
+                margin: 0 .25em;
+            }
+        }
+
+        &:hover .secondary_nav {
+            display: block !important;
+        }
+    }
+}
+
+.secondary_nav {
+    background: $accent;
+    color: white;
+    display: none;
+    width: 180px;
+    margin: 0;
+    padding: 15px 20px;
+    position: absolute;
+    top: 56px;
+    left: 0;
+    z-index: 1000;
+    white-space: nowrap;
+
+    &::before {
+        border-right: 6px double transparent;
+        border-left: 6px double transparent;
+        border-bottom: 10px solid $accent;
+        display: block;
+        width: 0;
+        height: 0;
+        position: absolute;
+        top: -10px;
+        left: 32px;
+        content: "";
+    }
+
+    > li {
+        display: block;
+        margin: .25em 0;
+
+        > a {
+            color: inherit;
+            display: block;
+            padding: .1em 0;
+            @include text-scale(1);
+            text-decoration: none;
+        }
+    }
+
+    &.mega {
+        width: 580px;
+        right: 0;
+        left: auto;
+
+        &::before {
+            right: 32px;
+            left: auto;
+        }
+
+        > li {
+            display: block;
+            float: left;
+            width: 180px;
+            margin: 10px 0 20px;
+
+            &.clear {
+                clear: left;
+            }
+
+            > a {
+                color: adjust-lightness($accent, 35);
+                @include text-scale(2);
+            }
+
+            > ul {
+                > li {
+                    display: block;
+                    margin: .25em 0;
+                }
+
+                a {
+                    color: white;
+                    padding: .1em 0;
+                    @include text-scale(1);
+                }
+            }
+        }
+    }
+}
+
+/* 메인 컨텐츠 >> 레이아웃
+   -------------------------------------------------- */
+
+.component {
+    background: white;
+    border: 1px solid $border-color;
+    overflow: hidden;
+    position: relative;
+
+    & + & {
+        margin-top: 20px;
+    }
+
+    &.padded {
+        padding: 15px;
+    }
+
+    &_heading {
+        margin: 0 0 10px;
+        font-weight: bold;
+
+        em {
+            color: #ea7439;
+            font-style: normal;
+        }
+    }
+
+    .extra_links {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        @include fix-inline-items;
+
+        > li {
+            display: inline-block;
+            line-height: 24px;
+
+            &:not(:first-child)::before {
+                color: $border-color;
+                margin: 0 .5em;
+                vertical-align: 1px;
+                @include text-scale(-1);
+                content: "|";
+            }
+        }
+
+        a {
+            color: inherit;
+        }
+    }
+}
+
+/* 메인 컨텐츠 >> 특보
+   -------------------------------------------------- */
+
+.warning {
+
+    .component_heading {
+        color: #e94b35;
+        padding-left: 28px;
+        position: relative;
+
+        &::before {
+            background: #e94b35;
+            color: white;
+            border-radius: 50%;
+            content: "!";
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            bottom: 3px;
+            left: 0;
+            line-height: 20px;
+            text-align: center;
+        }
+    }
+
+    dt {
+        @include text-scale(1);
+        color: #777;
+    }
+
+    dd {
+        margin: 0;
+    }
+}
+
+/* 메인 컨텐츠 >> 현재 지역별 날씨
+   -------------------------------------------------- */
+.current_weather {
+
+    .row {
+        color: $base-font-color;
+        display: table;
+        width: 100%;
+        padding: 4px 0;
+        @include text-scale(1);
+
+        span {
+            display: table-cell;
+            padding: 0 .5em;
+            vertical-align: middle;
+        }
+
+        .region {
+            width: 32%;
+
+            & ~ span {
+                width: 17%;
+                text-align: center;
+            }
+        }
+        /*
+        &.heading {
+            background: $accent;
+            @include border-radius($radius);
+
+            span {
+                color: white;
+            }
+        }
+        */
+
+        &:not(.heading) {
+            border-bottom: 1px dashed $border-color;
+        }
+    }
+
+    .meteo,
+    .wind_dir {
+        background-size: 28px 28px;
+        display: block;
+        width: 28px;
+        height: 28px;
+        margin: 0 auto;
+    }
+}
+
+/* 메인 컨텐츠 >> 추가정보 보기
+   -------------------------------------------------- */
+.extra_features {
+    li {
+        width: 50%;
+    }
+
+    a {
+        border-bottom: 1px dashed $border-color;
+        color: inherit;
+        display: block;
+        margin-right: 20px;
+        padding: 4px 3px;
+    }
+}
+
+/* 메인 컨텐츠 >> 전국 날씨정보 (메테오 맵)
+   -------------------------------------------------- */
+
+/* 메테오 맵 컨트롤러 */
+.meteomap_nav {
+
+    /* 날짜 선택 필드 */
+    #meteomap_datepicker {
+        float: right;
+        position: relative;
+
+        input {
+            width: 200px;
+            height: 30px;
+            padding: 0 45px 0 6px;
+            line-height: 30px;
+            text-align: center;
+            @include text-scale(1);
+            cursor: pointer;
+
+            + button {
+                background: white;
+                border: 1px solid $ui-border-color;
+                @include border-top-right-radius($radius);
+                @include border-bottom-right-radius($radius);
+                color: $base-font-color;
+                display: inline-block;
+                width: 40px;
+                height: 30px;
+                padding: 6px 6px 9px;
+                position: absolute;
+                top: 0;
+                right: 0;
+                line-height: 15px;
+                @include text-scale(1);
+                @include appearance(none);
+            }
+        }
+    }
+
+    /* 모드 스위치 버튼 */
+    #meteomap_switcher {
+        float: left;
+
+        li {
+            display: inline-block;
+            margin-right: 8px;
+        }
+    }
+}
+
+/* 메테오 맵 본체 */
+.meteomap_content {
+    padding: 10px 0;
+    @include border-radius($radius);
+
+    ul {
+        background: url(../img/map/south_korea.png) no-repeat scroll 0 0;
+        background: {
+            image: url(../img/map/south_korea.svg), none;
+            size: 100% 100%;
+        }
+        display: block;
+        width: 380px;
+        height: 457px;
+        margin: 0 auto;
+        padding: 0;
+        position: relative;
+    }
+
+    li {
+        display: block;
+        width: 44px;
+        position: absolute;
+
+        &.seoul {
+            top: 57px;
+            left: 91px;
+        }
+        &.incheon {
+            top: 75px;
+            left: 44px;
+        }
+        &.suwon {
+            top: 118px;
+            left: 90px;
+        }
+        &.chuncheon {
+            top: 46px;
+            left: 140px;
+        }
+        &.gangreung {
+            top: 52px;
+            left: 204px;
+        }
+        &.dokdo {
+            width: 48px;
+            top: 110px;
+            left: 330px;
+        }
+        &.baengnyeongdo {
+            width: 48px;
+            top: 15px;
+            left: 2px;
+        }
+        &.daejeoun {
+            top: 199px;
+            left: 127px;
+        }
+        &.seosan {
+            top: 144px;
+            left: 24px;
+        }
+        &.chungju {
+            top: 139px;
+            left: 139px;
+        }
+        &.jeonju {
+            top: 206px;
+            left: 80px;
+        }
+        &.heuksando {
+            width: 48px;
+            top: 249px;
+            left: 6px;
+        }
+        &.gwanju {
+            top: 266px;
+            left: 85px;
+        }
+        &.yeosu {
+            top: 316px;
+            left: 131px;
+        }
+        &.mokpo {
+            top: 310px;
+            left: 36px;
+        }
+        &.daegu {
+            top: 210px;
+            left: 196px;
+        }
+        &.andong {
+            top: 135px;
+            left: 212px;
+        }
+        &.pohang {
+            top: 158px;
+            left: 274px;
+        }
+        &.ulsan {
+            top: 218px;
+            left: 248px;
+        }
+        &.busan {
+            top: 278px;
+            left: 234px;
+        }
+        &.changwon {
+            top: 270px;
+            left: 177px;
+        }
+        &.jeju {
+            top: 390px;
+            left: 110px;
+        }
+    }
+
+    a {
+        background: #464e4e;
+        box-shadow: 1px 1px 1px rgba(black, .2);
+        color: white;
+        display: block;
+        padding: 3px 0;
+        line-height: 1.1;
+        text: {
+            align: center;
+            decoration: none;
+        }
+
+        &:hover {
+            box-shadow: inset 0 0 1px rgba(white, .9);
+        }
+
+        > span {
+            display: block;
+        }
+
+        .data {
+            > * {
+                display: none;
+            }
+
+            i {
+                background-size: 24px 24px;
+                width: 24px;
+                height: 24px;
+                margin: 1px auto;
+            }
+        }
+    }
+
+    .mode_weather {
+        .meteo {
+            display: block;
+        }
+
+        &.currentday {
+            .temp_avg {
+                display: block;
+            }
+        }
+
+        &:not(.currentday) {
+            .temp_max, .temp_min {
+                display: block;
+            }
+        }
+    }
+
+    .mode_precip {
+        > li {
+            margin-top: 12px; /* 기상 아이콘의 절반 크기 */
+        }
+
+        .precip {
+            display: block;
+            margin-top: 3px;
+        }
+    }
+
+    .mode_wind {
+        .wind_dir, .wind_spd {
+            display: block;
+        }
+    }
+}
+
+/* 아이콘 설명 */
+#meteomap_legend {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+}
+
+
+/* 메인 컨텐츠 >> 기상청 새 소식
+   -------------------------------------------------- */
+
+.recent_updates {
+
+    .board_name {
+        display: table;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        border-collapse: collapse;
+
+        li {
+            display: table-cell;
+        }
+    }
+
+    .board_posts {
+        border: solid shade($border-color, 10);
+        border-width: 0 1px 1px;
+
+        .board {
+            li { 
+                display: block;
+                margin: 3px 0;
+                padding: 2px 3px;
+                position: relative;
+
+                &.pinned {
+                    background: #e1f8ff;
+                }
+            }
+        }
+
+        .category {
+            color: $accent;
+            display: inline-block;
+            position: absolute;
+            left: 3px;
+        }
+
+        .page {
+            color: $base-font-color;
+            @include ellipsis(100%);
+            padding-left: 60px;
+        }
+
+        .more {
+            margin: 10px 0 0;
+            text-align: center;
+
+            a {
+                color: inherit;
+
+                &::after {
+                    content: "";
+                }
+            }
+        }
+    }
+
+    .ui-tabs .ui-tabs-panel {
+        padding: 5px 8px;
+    }
+}
+
+
+/* 메인 컨텐츠 >> 날씨ON
+   -------------------------------------------------- */
+.official_videos {
+    .video_list {
+        &_item {
+            width: 33.33%;
+            padding: 0 10px;
+
+            &:first-child {
+                padding-left: 0;
+            }
+
+            &:last-child {
+                padding-right: 0;
+            }
+
+            & + .video_list_item {
+                border-left: 1px dashed $border-color;
+            }
+        }
+
+        &_link {
+            color: white;
+            display: block;
+            max-height: 130px;
+            overflow: hidden;
+            position: relative;
+            line-height: normal;
+
+            .mask {
+                background: rgba(black, .66);
+                width: 100%;
+                padding: 5px 10px;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+            }
+
+            p {
+                margin: 2px 0;
+            }
+        }
+    }
+}
+
+
+/* 메인 컨텐츠 >> 로그인 폼
+   -------------------------------------------------- */
+
+.login {
+    background: #ebedee;
+    
+    &_form {
+        position: relative;
+    }
+
+    &_field {
+        margin: 0 80px 5px 0;
+        position: relative;
+
+        input {
+            border: 1px solid $ui-border-color;
+            @include border-radius($radius);
+            display: block;
+            width: 100%;
+            height: 25px;
+            padding: 3px 5px;
+        }
+
+        label { 
+            color: shade($border-color, 30);
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 5px;
+            line-height: 25px;
+        }
+    }
+
+    &_submit {
+        width: 70px;
+        height: 55px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        text-align: center;
+
+        input {
+            background: white;
+            border: 1px solid $ui-border-color;
+            @include border-radius($radius);
+            display: block;
+            width: 100%;
+            height: 100%;
+            @include appearance(none);
+        }
+    }
+
+    &_extra_links {
+        margin: 0;
+        padding: 0;
+        text-align: center;
+
+        li {
+            & + li {
+                margin-left: 20px;
+            }
+        }
+
+        a {
+            color: inherit;
+        }
+    }
+}
+
+
+/* 메인 컨텐츠 >> 추천 서비스
+   -------------------------------------------------- */
+
+.recommended_link {
+    color: inherit;
+    display: block;
+    margin: 0 0 15px;
+    padding-left: 60px;
+    position: relative;
+
+    h3 {
+        margin: 0;
+    }
+    
+    p {
+        margin: 0;
+        color: #7C7C7C;
+    }
+
+    img {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+}
+
+
+/* 메인 컨텐츠 >> 기상청 SNS
+   -------------------------------------------------- */
+
+.social {
+    ul {
+        display: table;
+        width: 100%;
+    }
+
+    li {
+        display: table-cell;
+        text-align: center;
+    }
+}
+
+
+/* 메인 컨텐츠 >> 관련기관 바로가기
+   -------------------------------------------------- */
+.bookmarks {
+    li + li {
+        margin-top: 20px;
+    }
+}
+
+
+/* 푸터
+   -------------------------------------------------- */
+
+.footer {
+    > .grid_holder {
+        border-top: 1px solid $border-color;
+        padding: 20px 0;
+    }
+
+    .l-right {
+        text-align: right;
+    }
+
+    &_links {
+        margin: 0 0 10px;
+
+        li {
+            + li::before {
+                background: $border-color;
+                display: inline-block;
+                width: 1px;
+                height: .8em;
+                margin: 0 1em;
+                content: "";
+            }
+
+            a {
+                color: inherit;
+            }
+        }
+    }
+
+    &_banner {
+        li {
+            clear: right;
+            float: right;
+            display: block;
+            margin: 0 0 10px;
+        }
+
+        a {
+            color: inherit;
+            display: block;
+            @include text-scale(1);
+        }
+
+        img {
+            vertical-align: middle;
+        }
+
+        mark {
+            background: none;
+            color: red;
+            font-weight: bold;
+        }
+    }
+}

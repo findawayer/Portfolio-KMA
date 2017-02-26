@@ -1,0 +1,51 @@
+@charset "UTF-8";
+
+// clear floats
+@mixin clearfix {
+    &::after {
+        clear: both;
+        display: table;
+        content: "";
+    }
+}
+
+// Scale
+@function scale( $base: 1, $iteration: 0 ) {
+    $interval: 1.12;
+
+    @if $iteration > 0 {
+        @for $i from 1 through $iteration {
+            $base: $base * $interval;
+        }
+    }
+    @else if $iteration < 0 {
+        @for $i from 1 through $iteration * -1 {
+            $base: $base / $interval;
+        }
+    }
+
+    @return round( $base );
+}
+
+// Scale font size based on the golden ratio
+@mixin text-scale( $iteration ) {
+    font-size: scale( $base-font-size, $iteration );
+}
+
+// Fix unwanted margin between `inline-block` elements
+@mixin fix-inline-items {
+    font-size: 0;
+
+    > * {
+        @include text-scale(0);
+    }
+}
+
+// Text ellipsis
+@mixin ellipsis($width: 1em, $display: block) {
+    display: $display;
+    width: $width;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
