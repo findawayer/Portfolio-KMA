@@ -620,6 +620,7 @@
 
 #meteo_map {
     &.show_weather {
+        .meteo,
         .temp_max,
         .temp_min {
             @include toggleBlock(true);
