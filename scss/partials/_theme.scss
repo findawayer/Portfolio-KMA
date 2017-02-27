@@ -619,7 +619,7 @@
 }
 
 #meteo_map {
-    .show_weather {
+    &.show_weather {
         .temp_max,
         .temp_min {
             @include toggleBlock(true);
@@ -636,7 +636,7 @@
         }
     }
 
-    .show_precip {
+    &.show_precip {
         > li {
             margin-top: 12px; /* 기상 아이콘의 절반 크기 */
         }
@@ -647,7 +647,7 @@
         }
     }
 
-    .show_wind {
+    &.show_wind {
         .wind_dir,
         .wind_spd {
             @include toggleBlock(true);
