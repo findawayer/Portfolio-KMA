@@ -51,13 +51,13 @@
                     <form role="form" id="interlanguage" class="interlanguage">
                         <select role="listbox" id="language" name="language" class="styled">
                             <!-- http://web.kma.go.kr/index.jsp -->
-                            <option role="option" value="" selected="selected">한국어</option>
+                            <option role="option" value="Korean" selected="selected">한국어</option>
                             <!-- http://web.kma.go.kr/eng/index.jsp -->
-                            <option role="option" value="" lang="en">English</option>
+                            <option role="option" value="English" lang="en">English</option>
                             <!-- http://web.kma.go.kr/jpn/index.jsp -->
-                            <option role="option" value="" lang="ja">日本語</option>
+                            <option role="option" value="Japanese" lang="ja">日本語</option>
                             <!-- http://web.kma.go.kr/chn/index.jsp -->
-                            <option role="option" value="" lang="zh-Hans">中文</option>
+                            <option role="option" value="Chinese" lang="zh-Hans">中文</option>
                         </select>
                     </form>
                 </div>
@@ -410,9 +410,8 @@
                                 <label for="mode_wind">바람</label>
                             </div>
                             <!-- 날짜 선택 필드 -->
-                            <form role="form" id="meteomap_datepicker">
-                                <input type="text" id="meteomap_date" class="styled shadow" readonly aria-live="polite" aria-readonly="true">
-                            </form>
+                            <input type="text" id="meteomap_date" class="styled shadow" readonly aria-live="polite" aria-readonly="true">
+                            <label for="meteomap_date" class="sr_only">열람할 날짜를 선택합니다.</label>
                         </div>
 
                         <div class="meteomap_content">
@@ -796,8 +795,9 @@
                     <nav role="navigation">
                         <ul class="list_inline">
                             <li>
-                                <select role="listbox" name="b_affiliated" id="b_affiliated">
-                                    <option role="option" disabled selected>기상청 소속기관</option>
+                                <label for="b_affiliated" class="sr_only">기상청 소속기관</label>
+                                <select role="listbox" id="b_affiliated" name="b_affiliated">
+                                    <option role="option" value="기상청 소속기관" disabled selected>기상청 소속기관</option>
                                     <option role="option" value="http://web.kma.go.kr/aboutkma/intro/metropolitan/index.jsp">수도권기상청</option>
                                     <option role="option" value="http://web.kma.go.kr/aboutkma/intro/busan/index.jsp">부산지방기상청</option>
                                     <option role="option" value="http://web.kma.go.kr/aboutkma/intro/gwangju/index.jsp">광주지방기상청</option>
@@ -816,8 +816,9 @@
                                 </select>
                             </li>
                             <li>
-                                <select role="listbox" name="b_administrative" id="b_administrative">
-                                    <option role="option" disabled selected>주요행정기관</option>
+                                <label for="b_administrative" class="sr_only">주요행정기관</label>
+                                <select role="listbox" id="b_administrative" name="b_administrative">
+                                    <option role="option" value="주요행정기관" disabled selected>주요행정기관</option>
                                     <option role="option" value="청와대">청와대</option>
                                     <option role="option" value="국무총리실">국무총리실</option>
                                     <option role="option" value="감사원">감사원</option>
@@ -878,7 +879,8 @@
                                 </select>
                             </li>
                             <li>
-                                <select role="listbox" name="b_related" id="b_related">
+                                <label for="b_related" class="sr_only">방재유관기관</label>
+                                <select role="listbox" id="b_related" name="b_related">
                                     <option role="option" disabled selected>방재유관기관</option>
                                     <option role="option" value="http://www.nema.go.kr/">소방방재청</option>
                                     <option role="option" value="http://119.seoul.go.kr/">서울종합방재센터</option>
@@ -890,7 +892,8 @@
                                 </select>
                             </li>
                             <li>
-                                <select role="listbox" name="b_meteo" id="b_meteo">
+                                <label for="b_meteo" class="sr_only">기상관련단체</label>
+                                <select role="listbox" id="b_meteo" name="b_meteo">
                                     <option role="option" disabled selected>기상관련단체</option>
                                     <option role="option" value="http://www.kmipa.or.kr/">한국기상산업진흥원</option>
                                     <option role="option" value="">한국기상기후아카데미</option>
@@ -899,7 +902,8 @@
                                 </select>
                             </li>
                             <li>
-                                <select role="listbox" name="b_international" id="b_international">
+                                <label for="b_international" class="sr_only">해외 기상청</label>
+                                <select role="listbox" id="b_international" name="b_international">
                                     <option disabled selected>해외 기상청</option>
                                     <option role="option" value="http://www.weather.gov">미국 기상청</option>
                                     <option role="option" value="http://www.jma.go.jp">일본 기상청</option>
