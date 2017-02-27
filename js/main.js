@@ -128,7 +128,7 @@
         var container = document.getElementById( "meteomap_list" );
         var items = container.children;
         var dataPath = "json/meteo.json";
-        var failedText = "불러오기에 실패했습니다.<br>다시 시도해 주세요.";
+        var failedText = "불러오기에 실패했습니다.";
 
         $.ajax({
             url: dataPath,
@@ -235,9 +235,10 @@
         }
 
         function notifyFailure( text ) {
-            var message = document.createElement( "p" );
-            message.appendChild( document.createTextNode( text ) );
-            container.appendChild( message );
+            var li = document.createElement( "li" );
+            li.className = "notice_failure";
+            li.appendChild( document.createTextNode( text ) );
+            container.appendChild( li );
         }
     }
 

@@ -49,6 +49,7 @@
                 <!-- 언어 -->
                 <div class="l-left cell">
                     <form role="form" id="interlanguage" class="interlanguage">
+                        <label for="language" class="sr_only">언어 선택</label>
                         <select role="listbox" id="language" name="language" class="styled">
                             <!-- http://web.kma.go.kr/index.jsp -->
                             <option role="option" value="Korean" selected="selected">한국어</option>
@@ -409,9 +410,12 @@
                                 <input role="radio" type="radio" name="meteomap_mode" id="mode_wind" class="radio" aria-checked="false">
                                 <label for="mode_wind">바람</label>
                             </div>
+
                             <!-- 날짜 선택 필드 -->
-                            <input type="text" id="meteomap_date" class="styled shadow" readonly aria-live="polite" aria-readonly="true">
-                            <label for="meteomap_date" class="sr_only">열람할 날짜를 선택합니다.</label>
+                            <div class="ui-datepicker-wrap">
+                                <input type="text" id="meteomap_date" class="ui-datepicker-field styled shadow" readonly aria-live="polite" aria-readonly="true">
+                                <label for="meteomap_date" class="sr_only">열람할 날짜를 선택합니다.</label>
+                            </div>
                         </div>
 
                         <div class="meteomap_content">
@@ -962,7 +966,7 @@
     </footer>
 
     <!-- JavaScripts -->
-    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/main.min.js"></script>
 </body>
 
 </html>
