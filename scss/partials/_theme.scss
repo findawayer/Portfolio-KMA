@@ -899,7 +899,7 @@
         padding: 20px 0;
     }
 
-    .l-right {
+    .float_right {
         text-align: right;
     }
 
@@ -919,6 +919,16 @@
             a {
                 color: inherit;
             }
+        }
+    }
+
+    &_contacts {
+        .address,
+        .phone {
+            display: inline-block;
+        }
+        .notice_warning {
+            margin: 0;
         }
     }
 
