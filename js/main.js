@@ -86,10 +86,13 @@
 
     })( $meteo_map.body, $meteo_map.toggle );
 
+    // 메테오 맵을 2016년 12월 23일 기준으로 활성화
+    updateMeteoMap( todayISO );
+
     // 메테오 맵에 기상 데이터를 입력
     // 기상 데이터 위치 ../json/meteo_data.json
     // @param {string} dateString - 출력할 데이터의 날짜. ISOdate 형식으로 기입.
-    (function updateMeteoMap( dateString ) {
+    function updateMeteoMap( dateString ) {
 
         var $items = $meteo_map.body.children();
         var dataPath = "json/meteo.json";
@@ -203,7 +206,7 @@
             $meteo_map.body.append( li );
         }
 
-    })( todayISO ); // 메테오 맵을 2016년 12월 23일 기준으로 활성화
+    }
 
 
     // 로그인 폼 placeholder 트릭
