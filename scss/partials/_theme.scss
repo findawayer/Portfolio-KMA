@@ -425,12 +425,14 @@
 /* 메테오 맵 컨트롤러 */
 .meteomap_nav {
 
-    /* 날짜 선택 필드 */
-    #meteomap_datepicker {
+    /* 날짜 선택 그룹 */
+    .ui-datepicker-wrap {
         float: right;
         position: relative;
+    }
 
-        input {
+    /* 날짜 선택 필드 */
+    .ui-datepicker-field {
             width: 200px;
             height: 30px;
             padding: 0 45px 0 6px;
@@ -438,35 +440,35 @@
             text-align: center;
             @include text-scale(1);
             cursor: pointer;
-
-            + button {
-                background: white;
-                border: 1px solid $ui-border-color;
-                @include border-top-right-radius($radius);
-                @include border-bottom-right-radius($radius);
-                color: $base-font-color;
-                display: inline-block;
-                width: 40px;
-                height: 30px;
-                padding: 6px 6px 9px;
-                position: absolute;
-                top: 0;
-                right: 0;
-                line-height: 15px;
-                @include text-scale(1);
-                @include appearance(none);
-            }
-        }
     }
 
-    /* 모드 스위치 버튼 */
-    #meteomap_switcher {
-        float: left;
+    /* 날짜 선택 버튼 */
+    .ui-datepicker-trigger {
+        background: white;
+        border: 1px solid $ui-border-color;
+        @include border-top-right-radius($radius);
+        @include border-bottom-right-radius($radius);
+        color: $base-font-color;
+        display: inline-block;
+        width: 40px;
+        height: 30px;
+        padding: 6px 6px 9px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        line-height: 15px;
+        @include text-scale(1);
+        @include appearance(none);
+    }
+}
 
-        li {
-            display: inline-block;
-            margin-right: 8px;
-        }
+/* 모드 스위치 버튼 */
+#meteomap_switcher {
+    float: left;
+
+    li {
+        display: inline-block;
+        margin-right: 8px;
     }
 }
 
@@ -658,12 +660,13 @@
     }
 
     .notice_failure {
-        background: white;
-        background: rgba(white, .92);
         color: red;
+        display: block;
+        width: 100%;
         position: absolute;
-        top: 10px;
-        right: 0;
+        top: 0;
+        left: 0;
+        text-align: right;
     }
 }
 
