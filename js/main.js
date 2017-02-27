@@ -1,16 +1,19 @@
-/*! 대한민국 기상청(포트폴리오 데모) JavaScript */
-
 ( function( window, document, $, undefined ) {
 
-    // 브라우저 감지 (IE 교정 전용)
-    var isIE = false || !!document.documentMode;
+    // 오늘 날짜를 2016-12-23으로 고정 (포트폴리오 데모 전용)
+    var todayISO = "2016-12-23";
+    var todayUnix = new Date( todayISO ).getTime();
 
-    // SVG가 지원되지 않는 환경에서는 같은 경로의 .png 파일로 대체
-    if ( !Modernizr.svg ) {
-        $( "img[src$='.svg']" ).each( function() {
-            $( this ).attr( "src", $( this ).attr( "src" ).replace( ".svg", ".png" ) );
-        });
-    }
+
+    /**
+     * 메테오 맵
+     */
+    var $meteo_map = {
+        body: $( "#meteo_map" ),
+        toggle: $( "#meteo_map_toggle" ),
+        dateField: $( "#meteo_map_date" ),
+        isToday: true
+    };
 
     // Datepicker를 이용한 날씨 데이터 로드
     // jQuery datepicker API: http://api.jqueryui.com/1.11/datepicker/
@@ -34,7 +37,7 @@
     });
 
     // 날씨 맵의 날짜 선택칸에 datepicker 적용
-    $( "#meteomap_date" )
+    $meteo_map.dateField
         .datepicker({
             showOn: "button",
             buttonText: "선택",
@@ -43,90 +46,52 @@
             onSelect: function( str, obj ) {
                 // 선택한 날짜에 따라 메테오 맵의 데이터를 업데이트
                 var isoDate = [obj.currentYear, obj.currentMonth + 1, obj.currentDay].join("-");
+                $meteo_map.isToday = isoDate != todayISO ? false : true;
 
                 updateMeteoMap( isoDate );
             }
         })
-        // 기본 날짜를 2016년 12월 24일로 고정 (포트폴리오 데모 전용)
+        // 기본 날짜를 2016년 12월 23일로 고정
         .datepicker(
             "setDate",
             $.datepicker.formatDate(
                 $.datepicker._defaults.dateFormat,
-                new Date( "December 23, 2016" )
+                new Date( todayISO )
             )
         );
 
-    // 기상청 새 소식에 jQuery tabs 적용
-    $( "#board_widget" ).tabs();
+    // 날씨-강수량-바람 라디오 버튼을 활성화
+    (function toggleMeteoMap( $map, $toggler ) {
 
-    // 언어, 관련기관 바로가기에 jQuery selectmenu 적용
-    // jQuery selectmenu API: https://api.jqueryui.com/selectmenu/
-    $( "#language, #bookmarks select" ).selectmenu({
-        change: function( event, data ) {
-            // 항목을 클릭하면 해당 사이트로 이동
-            if ( data.item.value ) window.location = data.item.value;
-        }
-    });
+        var currentValue = "meteo_map_tg_weather";
 
-    $( "#b_administrative" ).selectmenu( "menuWidget" ).addClass( "select_overflow" );
-
-    // 스크린 확대 및 축소
-    (function zoomScreen() {
-        var zoom = {
-            current: 1,
-            interval: 0.1,
-            min: 1,
-            max: 1.3
-        };
-        var $root = $( "body" );
-        var $zoomIn = $( "#zoom_in" );
-        var $zoomOut = $( "#zoom_out" );
-
-        $zoomIn.on( "click", function( event ) {
-            event.preventDefault();
-            controlZoom( true );
-        });
-        $zoomOut.on( "click", function( event ) {
-            event.preventDefault();
-            controlZoom( false );
+        $toggler.on( "change", "input", function() {
+            toggleMapData( this.id, $meteo_map.isToday );
         });
 
-        function controlZoom( bln ) {
-            if ( bln && zoom.current < zoom.max ) {
-                zoom.current += zoom.interval;
-            } else if ( !bln && zoom.current > zoom.min ) {
-                zoom.current -= zoom.interval;
-            } else {
-                return;
-            }
+        // 전국 날씨 지도의 디스플레이 속성을 토글
+        // @param {string} selectedValue - 선택한 라디오 버튼의 id
+        // @param {boolean} isToday - 오늘과 같은 날짜인가
+        function toggleMapData( selectedValue, isToday ) {
+            $( "#" + currentValue ).removeClass( "active" ).attr( "aria-checked", "false" );
+            $( "#" + selectedValue ).addClass( "active" ).attr( "aria-checked", "true" );
 
-            $root.css({
-                "zoom": zoom.current,
-                "moz-transform": "scale(" + zoom.current + ")",
-                "moz-transform-origin": "50% top"
-            });
+            var selectedMode = selectedValue.replace( "meteo_map_tg_", "show_" );
+            $map[0].className = $map[0].className.replace( /show_(\S+)/, selectedMode );
 
-            if ( isIE ) {
-                var offsetX = window.innerWidth * ( 1 - zoom.current ) / 2;
-                $root.css( "left", offsetX + "px" );
-            }
+            isToday ? $map.addClass( "is_today" ) : $map.addClass( "is_today" );
+
+            currentValue = selectedValue;
         }
-    })();
 
-    /**
-     * 메테오 맵에 기상 데이터를 입력
-     * 기상 데이터 위치 ../json/meteo_data.json
-     * @param {string} dateString - 출력할 데이터의 날짜. ISOdate 형식으로 기입.
-     */
+    })( $meteo_map.body, $meteo_map.toggle );
 
-    // 메테오 맵을 2016년 12월 23일 기준으로 활성화 (포트폴리오 전용 설정)
-    var today = "2016-12-23";
-    var todayUnix = new Date( today ).getTime();
-    updateMeteoMap( today );
+    // 메테오 맵에 기상 데이터를 입력
+    // 기상 데이터 위치 ../json/meteo_data.json
+    // @param {string} dateString - 출력할 데이터의 날짜. ISOdate 형식으로 기입.
+    (function updateMeteoMap( dateString ) {
 
-    function updateMeteoMap( dateString ) {
-        var container = document.getElementById( "meteomap_list" );
-        var items = container.children;
+        var $items = $meteo_map.body.children();
         var dataPath = "json/meteo.json";
         var failedText = "불러오기에 실패했습니다.";
 
@@ -142,7 +107,7 @@
         });
 
         function applyData( obj ) {
-            var target, location;
+            var $target, location;
             var weather, tempAvg, tempMax, tempMin, precip, windDir, windSpeed;
             var dataExists = {
                 weather: true,
@@ -150,10 +115,10 @@
                 precipitation: true,
                 wind: true
             };
-            var radio = {
-                weather: document.getElementById( "mode_weather" ),
-                precipitation: document.getElementById( "mode_precip" ),
-                wind: document.getElementById( "mode_wind" )
+            var $radio = {
+                weather: $( "#meteo_map_tg_weather" ),
+                precipitation: $( "#meteo_map_tg_precip" ),
+                wind: $( "#meteo_map_tg_wind" )
             };
 
             // 주어진 날짜에 맞는 데이터가 있는지 확인
@@ -163,21 +128,22 @@
             dataExists.wind = obj.hasOwnProperty( "wind" );
 
             // 데이터의 유무에 따라 라디오 버튼 활성 또는 비활성화
-            toggleRadio( radio.weather, dataExists.weather );
-            toggleRadio( radio.precipitation, dataExists.precipitation );
-            toggleRadio( radio.wind, dataExists.wind );
+            toggleRadio( $radio.weather, dataExists.weather );
+            toggleRadio( $radio.precipitation, dataExists.precipitation );
+            toggleRadio( $radio.wind, dataExists.wind );
 
-            for ( var i = 0, j = items.length; i < j; i++ ) {
-                target = items[i].querySelector(".data");
-                location = items[i].className;
+            $items.each( function(index, item) {
 
-                emptyElement( target );
+                $target = $( item ).find(".data");
+                location = item.className.split(" ").pop();
+
+                $target.empty();
 
                 if ( dataExists.weather ) {
                     whether = document.createElement( "i" );
                     whether.className = "meteo " + obj.weather[location] || "null";
 
-                    target.appendChild( whether );
+                    $target.append( whether );
                 }
 
                 if ( dataExists.temperature ) {
@@ -191,9 +157,9 @@
                     tempMax.appendChild( document.createTextNode( obj.temperature[location].max || "" ) );
                     tempMin.appendChild( document.createTextNode( obj.temperature[location].min || "" ) );
 
-                    target.appendChild( tempAvg );
-                    target.appendChild( tempMax );
-                    target.appendChild( tempMin );
+                    $target.append( tempAvg );
+                    $target.append( tempMax );
+                    $target.append( tempMin );
                 }
 
                 if ( dataExists.precipitation ) {
@@ -201,7 +167,7 @@
                     precip.className = "precip";
                     precip.appendChild( document.createTextNode( obj.precipitation[location] || "" ) );
 
-                    target.appendChild( precip );
+                    $target.append( precip );
                 }
 
                 if ( dataExists.wind ) {
@@ -211,64 +177,38 @@
                     windSpeed.className = "wind_spd";
                     windSpeed.appendChild( document.createTextNode( obj.wind[location].speed || "" ) );
 
-                    target.appendChild( windDir );
-                    target.appendChild( windSpeed );
+                    $target.append( windDir );
+                    $target.append( windSpeed );
                 }
-            }
+
+            });
         }
 
-        function toggleRadio( radio, bln ) {
+        function toggleRadio( $radio, bln ) {
+            $radio.prop( "disabled", !bln ).attr( "aria-disabled", !bln );
+
             if ( bln ) {
-                $( radio ).removeClass( "disabled" );
+                $radio.removeClass( "disabled" );
             } else {
-                $( radio ).addClass( "disabled" );
-            }
-
-            radio.disabled = !bln;
-            radio.setAttribute( "aria-disabled", !bln );
-        }
-
-        function emptyElement( el ) {
-            while ( el.lastChild ) {
-                el.removeChild( el.lastChild );
+                $radio.addClass( "disabled" );
             }
         }
 
         function notifyFailure( text ) {
             var li = document.createElement( "li" );
+            
             li.className = "notice_failure";
             li.appendChild( document.createTextNode( text ) );
-            container.appendChild( li );
+
+            $meteo_map.body.append( li );
         }
-    }
 
-    /**
-     * 전국 날씨 지도의 디스플레이 속성을 토글
-     * @param {string} mode - 표시할 데이터의 종류. "weather", "precip", "wind" 중 선택.
-     * @param {boolean} isToday - 기본 날짜와 같은지 표시
-     */ 
+    })( todayISO ); // 메테오 맵을 2016년 12월 23일 기준으로 활성화
 
-    // 날씨-강수량-바람 스위치 버튼을 활성화
-    var $meteomap_toggler = $( "#meteomap_switcher" );
-    var meteomap_list = document.getElementById( "meteomap_list" );
 
-    $meteomap_toggler.on( "change", "input", function() {
-        toggleMeteoMap( this.id, true );
-    });
+    // 로그인 폼 placeholder 트릭
+    // @param {string} dateString - 출력할 데이터의 날짜. ISOdate 형식으로 기입.
 
-    function toggleMeteoMap( mode, isToday ) {
-        var prevClass = meteomap_list.className.replace(/(mode+\S*)(.*)/g, "$1");
-        var newClass = mode + ( isToday ? " currentday" : "" );
-
-        $( "#" + prevClass ).removeClass( "active" ).attr( "aria-checked", "false" );
-        $( "#" + mode ).addClass( "active" ).attr( "aria-checked", "true" );
-        meteomap_list.className = newClass;
-    }
-
-    /**
-     * 로그인 폼 placeholder 트릭
-     * @param {string} dateString - 출력할 데이터의 날짜. ISOdate 형식으로 기입.
-     */
     // 아이디, 비밀번호에 글자를 입력하면 라벨을 숨김
     $( "#user_id, #user_password" ).on( "keydown keyup keypress blur", function() {
         placeholderLabel( $(this) );
@@ -279,5 +219,19 @@
             ? $textField.next( "label" ).show()
             : $textField.next( "label" ).hide();
     }
+
+    // 기상청 새 소식에 jQuery tabs 적용
+    $( "#board_widget" ).tabs();
+
+    // 언어, 관련기관 바로가기에 jQuery selectmenu 적용
+    // jQuery selectmenu API: https://api.jqueryui.com/selectmenu/
+    $( "#language, #bookmarks select" ).selectmenu({
+        change: function( event, data ) {
+            // 항목을 클릭하면 해당 사이트로 이동
+            if ( data.item.value ) window.location = data.item.value;
+        }
+    });
+
+    $( "#b_administrative" ).selectmenu( "menuWidget" ).addClass( "select_overflow" );
 
 } )( window, document, jQuery );
