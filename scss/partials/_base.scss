@@ -69,7 +69,8 @@ p {
 
 /* 링크 */
 a {
-    color: #4196de;
+    // color: #4196de;
+    color: $base-font-color;
     text-decoration: none;
     cursor: pointer;
 
