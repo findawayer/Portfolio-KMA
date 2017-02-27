@@ -31,6 +31,7 @@
     <script type="text/javascript" src="plugins/jquery-1.12.4.min.js"></script>
     <script type="text/javascript" src="plugins/jquery-ui/jquery-ui.min.js"></script>
     <!--[if lt IE 9]>
+    <link rel="stylesheet" type="text/css" href="css/ie8.css">
     <script type="text/javascript" src="plugins/html5shiv.min.js"></script>
     <script type="text/javascript" src="plugins/html5shiv-printshiv.min.js"></script>
     <![endif]-->
@@ -47,7 +48,7 @@
             <div class="grid_holder">
 
                 <!-- 언어 -->
-                <div class="l-left cell">
+                <div class="float_left cell">
                     <form role="form" id="interlanguage" class="interlanguage">
                         <label for="language" class="sr_only">언어 선택</label>
                         <select role="listbox" id="language" name="language" class="styled">
@@ -64,7 +65,7 @@
                 </div>
 
                 <!-- 편의성 링크 -->
-                <div class="l-left cell navset">
+                <div class="float_left cell navset">
                     <ul role="menu" class="list_inline">
                         <li role="presentation"><a role="menuitem" href="#" title="모바일 버전으로 보기">사이트맵</a></li>
                         <li role="presentation"><a role="menuitem" href="#" title="모바일 버전으로 보기">모바일</a></li>
@@ -75,7 +76,7 @@
                 </div>
 
                 <!-- 검색 -->
-                <div class="l-right cell">
+                <div class="float_right cell">
                     <form role="search" id="search_dictionary" class="global_search" method="post" aria-label="global search">
                         <div class="view">
                             <input type="text" id="input_keyword1" name="keyword" class="inputbase styled shadow" title="검색어 입력"> 
@@ -85,7 +86,7 @@
                 </div>
 
                 <!-- 글자 크기 조절 -->
-                <div class="l-right cell navset">
+                <div class="float_right cell navset">
                     <ul role="menu" class="list_inline">
                         <li role="presentation"><a role="menuitem" id="zoom_out" href="#" title="화면 크기를 축소합니다.">축소</a></li>
                         <li role="presentation"><a role="menuitem" id="zoom_in" href="#" title="화면 크기를 확대합니다.">확대</a></li>
@@ -96,9 +97,9 @@
         </div>
 
         <!-- main header -->
-        <div role="menubar" id="main_header" class="l-main_header grid_holder">
+        <div role="menubar" id="main_header" class="grid_holder">
             <!-- 기상청 로고 -->
-            <h1 id="site_logo" class="l-left">
+            <h1 id="site_logo" class="float_left">
                 <a role="button" href="#">
                     <img src="img/logo.svg" width="98" height="40" alt="기상청">
                 </a>
@@ -109,7 +110,7 @@
             </h1>
 
             <!-- 메인 메뉴 -->
-            <nav id="content_nav" class="l-right">
+            <nav id="content_nav" class="float_right">
                 <ul role="menu" class="primary_nav">
                     <li role="presentation">
                         <a role="menuitem" id="content_open_gov" href="#" title="정보공개">정보공개</a>
@@ -264,7 +265,7 @@
     </header>
 
     <!-- main content -->
-    <main id="content" class="l-content">
+    <main id="content">
         <div class="grid_holder">
             <div class="grid_outer_9">
 
@@ -395,161 +396,161 @@
                 <div class="grid_5">
 
                     <!-- 전국 날씨정보 -->
-                    <section role="region" class="component padded meteomap">
+                    <section role="region" id="section_meteo_map" class="component padded">
                         <h2 class="component_heading">전국 <em>날씨정보</em></h2>
 
-                        <div class="meteomap_nav group">
+                        <div class="meteo_map_control group">
                             <!-- 모드 스위치 버튼 -->
-                            <div role="radiogroup" id="meteomap_switcher">
-                                <input role="radio" type="radio" name="meteomap_mode" id="mode_weather" class="radio active" checked aria-checked="true">
-                                <label for="mode_weather">날씨</label>
+                            <div role="radiogroup" id="meteo_map_toggle" class="meteo_map_toggle">
+                                <input role="radio" type="radio" name="meteo_map_toggle" id="meteo_map_tg_weather" class="radio active" checked aria-checked="true">
+                                <label for="meteo_map_tg_weather">날씨</label>
 
-                                <input role="radio" type="radio" name="meteomap_mode" id="mode_precip" class="radio" aria-checked="false">
-                                <label for="mode_precip">강수량</label>
+                                <input role="radio" type="radio" name="meteo_map_toggle" id="meteo_map_tg_precip" class="radio" aria-checked="false">
+                                <label for="meteo_map_tg_precip">강수량</label>
 
-                                <input role="radio" type="radio" name="meteomap_mode" id="mode_wind" class="radio" aria-checked="false">
-                                <label for="mode_wind">바람</label>
+                                <input role="radio" type="radio" name="meteo_map_toggle" id="meteo_map_tg_wind" class="radio" aria-checked="false">
+                                <label for="meteo_map_tg_wind">바람</label>
                             </div>
 
                             <!-- 날짜 선택 필드 -->
-                            <div class="ui-datepicker-wrap">
-                                <input type="text" id="meteomap_date" class="ui-datepicker-field styled shadow" readonly aria-live="polite" aria-readonly="true">
-                                <label for="meteomap_date" class="sr_only">열람할 날짜를 선택합니다.</label>
+                            <div class="meteo_map_select_date">
+                                <input type="text" id="meteo_map_date" class="ui-datepicker-field styled shadow" readonly aria-live="polite" aria-readonly="true">
+                                <label for="meteo_map_date" class="sr_only">열람할 날짜를 선택합니다.</label>
                             </div>
                         </div>
 
-                        <div class="meteomap_content">
-                            <ul id="meteomap_list" class="mode_weather currentday">
-                                <li class="seoul">
+                        <div class="meteo_map_wrap">
+                            <ul id="meteo_map" class="meteo_map_list show_weather is_today">
+                                <li class="meteo_map_list_item seoul">
                                     <a href="#">
                                         <span>서울</span>
-                                        <span role="presentation" class="data"></span>
+                                        <span class="data"></span>
                                     </a>
                                 </li>
-                                <li class="incheon">
+                                <li class="meteo_map_list_item incheon">
                                     <a href="#">
                                         <span>인천</span>
-                                        <span role="presentation" class="data"></span>
+                                        <span class="data"></span>
                                     </a>
                                 </li>
-                                <li class="suwon">
+                                <li class="meteo_map_list_item suwon">
                                     <a href="#">
                                         <span>수원</span>
-                                        <span role="presentation" class="data"></span>
+                                        <span class="data"></span>
                                     </a>
                                 </li>
-                                <li class="chuncheon">
+                                <li class="meteo_map_list_item chuncheon">
                                     <a href="#">
                                         <span>춘천</span>
-                                        <span role="presentation" class="data"></span>
+                                        <span class="data"></span>
                                     </a>
                                 </li>
-                                <li class="gangreung">
+                                <li class="meteo_map_list_item gangreung">
                                     <a href="#">
                                         <span>강릉</span>
-                                        <span role="presentation" class="data"></span>
+                                        <span class="data"></span>
                                     </a>
                                 </li>
-                                <li class="dokdo">
+                                <li class="meteo_map_list_item dokdo">
                                     <a href="#">
                                         <span>울릉도<br>독도</span>
-                                        <span role="presentation" class="data"></span>
+                                        <span class="data"></span>
                                     </a>
                                 </li>
-                                <li class="baengnyeongdo">
+                                <li class="meteo_map_list_item baengnyeongdo">
                                     <a href="#">
                                         <span>백령도</span>
-                                        <span role="presentation" class="data"></span>
+                                        <span class="data"></span>
                                     </a>
                                 </li>
-                                <li class="daejeoun">
+                                <li class="meteo_map_list_item daejeoun">
                                     <a href="#">
                                         <span>대전</span>
-                                        <span role="presentation" class="data"></span>
+                                        <span class="data"></span>
                                     </a>
                                 </li>
-                                <li class="seosan">
+                                <li class="meteo_map_list_item seosan">
                                     <a href="#">
                                         <span>서산</span>
-                                        <span role="presentation" class="data"></span>
+                                        <span class="data"></span>
                                     </a>
                                 </li>
-                                <li class="chungju">
+                                <li class="meteo_map_list_item chungju">
                                     <a href="#">
                                         <span>청주</span>
-                                        <span role="presentation" class="data"></span>
+                                        <span class="data"></span>
                                     </a>
                                 </li>
-                                <li class="jeonju">
+                                <li class="meteo_map_list_item jeonju">
                                     <a href="#">
                                         <span>전주</span>
-                                        <span role="presentation" class="data"></span>
+                                        <span class="data"></span>
                                     </a>
                                 </li>
-                                <li class="heuksando">
+                                <li class="meteo_map_list_item heuksando">
                                     <a href="#">
                                         <span>흑산도</span>
-                                        <span role="presentation" class="data"></span>
+                                        <span class="data"></span>
                                     </a>
                                 </li>
-                                <li class="gwanju">
+                                <li class="meteo_map_list_item gwanju">
                                     <a href="#">
                                         <span>광주</span>
-                                        <span role="presentation" class="data"></span>
+                                        <span class="data"></span>
                                     </a>
                                 </li>
-                                <li class="yeosu">
+                                <li class="meteo_map_list_item yeosu">
                                     <a href="#">
                                         <span>여수</span>
-                                        <span role="presentation" class="data"></span>
+                                        <span class="data"></span>
                                     </a>
                                 </li>
-                                <li class="mokpo">
+                                <li class="meteo_map_list_item mokpo">
                                     <a href="#">
                                         <span>목포</span>
-                                        <span role="presentation" class="data"></span>
+                                        <span class="data"></span>
                                     </a>
                                 </li>
-                                <li class="daegu">
+                                <li class="meteo_map_list_item daegu">
                                     <a href="#">
                                         <span>대구</span>
-                                        <span role="presentation" class="data"></span>
+                                        <span class="data"></span>
                                     </a>
                                 </li>
-                                <li class="andong">
+                                <li class="meteo_map_list_item andong">
                                     <a href="#">
                                         <span>안동</span>
-                                        <span role="presentation" class="data"></span>
+                                        <span class="data"></span>
                                     </a>
                                 </li>
-                                <li class="pohang">
+                                <li class="meteo_map_list_item pohang">
                                     <a href="#">
                                         <span>포항</span>
-                                        <span role="presentation" class="data"></span>
+                                        <span class="data"></span>
                                     </a>
                                 </li>
-                                <li class="ulsan">
+                                <li class="meteo_map_list_item ulsan">
                                     <a href="#">
                                         <span>울산</span>
-                                        <span role="presentation" class="data"></span>
+                                        <span class="data"></span>
                                     </a>
                                 </li>
-                                <li class="busan">
+                                <li class="meteo_map_list_item busan">
                                     <a href="#">
                                         <span>부산</span>
-                                        <span role="presentation" class="data"></span>
+                                        <span class="data"></span>
                                     </a>
                                 </li>
-                                <li class="changwon">
+                                <li class="meteo_map_list_item changwon">
                                     <a href="#">
                                         <span>창원</span>
-                                        <span role="presentation" class="data"></span>
+                                        <span class="data"></span>
                                     </a>
                                 </li>
-                                <li class="jeju">
+                                <li class="meteo_map_list_item jeju">
                                     <a href="#">
                                         <span>제주</span>
-                                        <span role="presentation" class="data"></span>
+                                        <span class="data"></span>
                                     </a>
                                 </li>
                             </ul>
@@ -928,7 +929,7 @@
 
         <div class="grid_holder">
 
-            <div class="l-left">
+            <div class="float_left">
                 <nav role="navigation" class="footer_links">
                     <ul class="list_inline">
                         <li><a href="#">개인정보 처리방침</a></li>
@@ -947,7 +948,7 @@
                 <p class="copyright">Copyright © 2009 KMA. All Rights RESERVED.</p>
             </div>
 
-            <div class="l-right">
+            <div class="float_right">
                 <nav role="navigation">
                     <ul class="list_unstyled footer_banner">
                         <li>
@@ -966,6 +967,7 @@
     </footer>
 
     <!-- JavaScripts -->
+    <script type="text/javascript" src="js/common.min.js"></script>
     <script type="text/javascript" src="js/main.min.js"></script>
 </body>
 
