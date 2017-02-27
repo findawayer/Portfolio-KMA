@@ -1,0 +1,50 @@
+@charset "UTF-8";
+
+@import "compass";
+@import "partials/variables";
+
+/* 라디오 버튼 복원 */
+.radio {
+    display: inline-block;
+
+    + label {
+        height: auto;
+        margin: 0;
+        padding: 0;
+        line-height: normal;
+
+        &:before,
+        &:after {
+            display: none;
+        }
+    }
+
+    label + & {
+        margin-left: 8px;
+    }
+}
+
+/* SVG를 PNG로 대체 */
+.meteo {
+    $meteo-icon-sprite: sprite-map( "weather/png/*.png" );
+
+    @each $icon in $meteo-types {
+        &.#{$icon} {
+            background: $meteo-icon-sprite no-repeat sprite-position( $meteo-icon-sprite, $icon );
+        }
+    }
+}
+
+.wind_dir {
+    $wind-icon-sprite: sprite-map( "wind/png/*.png" );
+
+    @each $icon in $wind-directions {
+        &.#{$icon} {
+            background: $wind-icon-sprite no-repeat sprite-position( $wind-icon-sprite, $icon );
+        }
+    }
+}
+
+.meteo_map_list {
+    background: image-url( "map/south_korea.png", false, false ) no-repeat scroll 0 0;
+}
