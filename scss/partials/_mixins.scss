@@ -2,7 +2,7 @@
 
 // clear floats
 @mixin clearfix {
-    &::after {
+    &:after {
         clear: both;
         display: table;
         content: "";

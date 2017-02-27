@@ -52,8 +52,8 @@
         padding: 0 15px;
         position: relative;
 
-        &.l-left + .l-left::before,
-        &.l-right + .l-right::before {
+        &.l-left + .l-left:before,
+        &.l-right + .l-right:before {
             background: shade($border-color, 10);
             display: block;
             width: 1px;
@@ -62,10 +62,10 @@
             top: 8px;
             content: "";
         }
-        &.l-left + .l-left::before {
+        &.l-left + .l-left:before {
             left: 0;
         }
-        &.l-right + .l-right::before {
+        &.l-right + .l-right:before {
             right: 0;
         }
     }
@@ -197,7 +197,7 @@
     z-index: 1000;
     white-space: nowrap;
 
-    &::before {
+    &:before {
         border-right: 6px double transparent;
         border-left: 6px double transparent;
         border-bottom: 10px solid $accent;
@@ -228,7 +228,7 @@
         right: 0;
         left: auto;
 
-        &::before {
+        &:before {
             right: 32px;
             left: auto;
         }
@@ -301,7 +301,7 @@
             display: inline-block;
             line-height: 24px;
 
-            &:not(:first-child)::before {
+            &:not(:first-child):before {
                 color: $border-color;
                 margin: 0 .5em;
                 vertical-align: 1px;
@@ -326,7 +326,7 @@
         padding-left: 28px;
         position: relative;
 
-        &::before {
+        &:before {
             background: #e94b35;
             color: white;
             border-radius: 50%;
@@ -733,7 +733,7 @@
             a {
                 color: inherit;
 
-                &::after {
+                &:after {
                     content: "";
                 }
             }
@@ -751,19 +751,17 @@
 .official_videos {
     .video_list {
         &_item {
-            width: 33.33%;
+            border-left: 1px dashed $border-color;
+            width: 33.3%;
             padding: 0 10px;
 
             &:first-child {
+                border: 0;
                 padding-left: 0;
             }
 
             &:last-child {
                 padding-right: 0;
-            }
-
-            & + .video_list_item {
-                border-left: 1px dashed $border-color;
             }
         }
 
@@ -931,7 +929,7 @@
         margin: 0 0 10px;
 
         li {
-            + li::before {
+            + li:before {
                 background: $border-color;
                 display: inline-block;
                 width: 1px;

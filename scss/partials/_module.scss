@@ -26,7 +26,7 @@
 
     > li {
         display: inline-block;
-        font-size: 1rem;
+        @include text-scale(0);
     }
 }
 
@@ -126,15 +126,15 @@ input.checkbox {
         @include text-scale(1);
         color: $base-font-color;
 
-        &::before,
-        &::after {
+        &:before,
+        &:after {
             content: "";
             display: inline-block;
             position: absolute;
             @include border-radius(50%);
         }
 
-        &::before {
+        &:before {
             width: 16px;
             height: 16px;
             top: 7px;
@@ -142,7 +142,7 @@ input.checkbox {
             border: 2px solid #babcbf;
         }
 
-        &::after {
+        &:after {
             width: 6px;
             height: 6px;
             top: 12px;
@@ -155,11 +155,11 @@ input.checkbox {
     }
 
     &.active + label {
-        &::before {
+        &:before {
             border-color: $accent;
         }
 
-        &::after {
+        &:after {
             background: $accent;
         }
     }

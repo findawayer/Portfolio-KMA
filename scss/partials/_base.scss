@@ -8,8 +8,8 @@
 
 /* 글로벌 */
 *,
-*::before,
-*::after {
+*:before,
+*:after {
     @include experimental("box-sizing", border-box, webkit, moz, ms);
 }
 
@@ -24,12 +24,13 @@ html {
 
 body {
     @extend html;
-    font-weight: $base-font-weight;
-    letter-spacing: $base-tracking;
-    line-height: $base-line-height;
     color: $base-font-color;
     position: relative;
-    text-rendering: optimizeLegibility;
+    line-height: $base-line-height;
+    font-weight: $base-font-weight;
+    letter-spacing: $base-tracking;
+    @include experimental("text-rendering", optimizeLegibility, webkit, moz, o, ms);
+    @include experimental("text-size-adjust", none, webkit, ms);
 }
 
 /* 언어 */
@@ -68,9 +69,9 @@ p {
 
 /* 링크 */
 a {
+    color: #4196de;
     text-decoration: none;
     cursor: pointer;
-    color: #4196de;
 
     &:hover {
         text-decoration: underline;
@@ -87,8 +88,8 @@ em {
 label {
     display: inline-block;
     vertical-align: middle;
-    @include text-scale(0);
     line-height: normal;
+    @include text-scale(0);
 }
 
 input[disabled],
