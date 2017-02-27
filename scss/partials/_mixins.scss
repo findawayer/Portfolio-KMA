@@ -1,11 +1,22 @@
 @charset "UTF-8";
 
-// clear floats
+// Clear floats
 @mixin clearfix {
     &:after {
         clear: both;
         display: table;
         content: "";
+    }
+}
+
+// Show or hide block both visually/aurally
+@mixin toggleBlock( $boolean: true ) {
+    @if ( $boolean ) {
+        display: block;
+        speak: normal;
+    } @else {
+        display: none;
+        speak: none;
     }
 }
 

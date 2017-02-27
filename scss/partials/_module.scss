@@ -1,5 +1,7 @@
 @charset "UTF-8";
 
+@import "variables";
+
 /*--------------------------------------------------
   모듈
   - 재사용 가능한 유틸리티 CSS 모음입니다.
@@ -30,7 +32,7 @@
     }
 }
 
-/* 플루이드 이미지 */
+/* 반응형 이미지 */
 .img_fluid {
     display: block;
     max-width: 100%;
@@ -63,14 +65,6 @@ button.styled {
 
 input.shadow {
     box-shadow: inset 0 1px 1px rgba(0,0,0, .055);
-}
-
-input.radio,
-input.checkbox {
-    display: inline-block;
-    vertical-align: middle;
-    position: relative;
-    top: .1em;
 }
 
 .select_overflow {
@@ -112,16 +106,25 @@ input.checkbox {
     }
 }
 
-/* 라디오 버튼 커스터마이징 */
+/* 라디오, 체크박스 커스터마이징 */
+.radio,
+.checkbox {
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    top: .1em;
+}
+
 .radio {
-    display: none !important;
+    display: none;
 
     + label {
         display: inline-block;
         height: 30px;
-        line-height: 30px;
+        margin-left: 8px;
         padding-left: 22px;
         position: relative;
+        line-height: 30px;
         cursor: pointer;
         @include text-scale(1);
         color: $base-font-color;
@@ -149,8 +152,8 @@ input.checkbox {
             left: 5px;
         }
 
-        &:not(:first-of-type) {
-            margin-left: 8px;
+        &:first-of-type {
+            margin-left: 0;
         }
     }
 
@@ -178,33 +181,11 @@ input.checkbox {
         repeat: no-repeat;
     }
 
-    &.clear {
-        background-image: url(../img/weather/sun.png);
-        background-image: url(../img/weather/sun.svg), none;
-    }
-    &.cloudy {
-        background-image: url(../img/weather/cloudy.png);
-        background-image: url(../img/weather/cloudy.svg), none;
-    }
-    &.cloudy2 {
-        background-image: url(../img/weather/cloud2.png);
-        background-image: url(../img/weather/cloud2.svg), none;
-    }
-    &.rainy {
-        background-image: url(../img/weather/rainy.png);
-        background-image: url(../img/weather/rainy.svg), none;
-    }
-    &.snowy {
-        background-image: url(../img/weather/snowy.png);
-        background-image: url(../img/weather/snowy.svg), none;
-    }
-    &.lightning {
-        background-image: url(../img/weather/lightning.png);
-        background-image: url(../img/weather/lightning.svg), none;
-    }
-    &.haily {
-        background-image: url(../img/weather/hail.png);
-        background-image: url(../img/weather/hail.svg), none;
+    // 대체 PNG가 ie8.scss에 추가되어야 함
+    @each $icon in $meteo-types {
+        &.#{$icon} {
+            background: url( $meteo-icon-path + "/" + $icon + ".svg" );
+        }
     }
 }
 
@@ -217,68 +198,10 @@ input.checkbox {
         repeat: no-repeat;
     }
 
-    &.n {
-        background-image: url(../img/wind/n.png);
-        background-image: url(../img/wind/n.svg), none;
-    }
-    &.nne {
-        background-image: url(../img/wind/nne.png);
-        background-image: url(../img/wind/nne.svg), none;
-    }
-    &.ne {
-        background-image: url(../img/wind/ne.png);
-        background-image: url(../img/wind/ne.svg), none;
-    }
-    &.ene {
-        background-image: url(../img/wind/ene.png);
-        background-image: url(../img/wind/ene.svg), none;
-    }
-    &.e {
-        background-image: url(../img/wind/e.png);
-        background-image: url(../img/wind/e.svg), none;
-    }
-    &.ese {
-        background-image: url(../img/wind/ese.png);
-        background-image: url(../img/wind/ese.svg), none;
-    }
-    &.se {
-        background-image: url(../img/wind/se.png);
-        background-image: url(../img/wind/se.svg), none;
-    }
-    &.sse {
-        background-image: url(../img/wind/sse.png);
-        background-image: url(../img/wind/sse.svg), none;
-    }
-    &.s {
-        background-image: url(../img/wind/s.png);
-        background-image: url(../img/wind/s.svg), none;
-    }
-    &.ssw {
-        background-image: url(../img/wind/ssw.png);
-        background-image: url(../img/wind/ssw.svg), none;
-    }
-    &.sw {
-        background-image: url(../img/wind/sw.png);
-        background-image: url(../img/wind/sw.svg), none;
-    }
-    &.wsw {
-        background-image: url(../img/wind/wsw.png);
-        background-image: url(../img/wind/wsw.svg), none;
-    }
-    &.w {
-        background-image: url(../img/wind/w.png);
-        background-image: url(../img/wind/w.svg), none;
-    }
-    &.wnw {
-        background-image: url(../img/wind/wnw.png);
-        background-image: url(../img/wind/wnw.svg), none;
-    }
-    &.nw {
-        background-image: url(../img/wind/nw.png);
-        background-image: url(../img/wind/nw.svg), none;
-    }
-    &.nnw {
-        background-image: url(../img/wind/nnw.png);
-        background-image: url(../img/wind/nnw.svg), none;
+    // 대체 PNG가 ie8.scss에 추가되어야 함
+    @each $icon in $wind-directions {
+        &.#{$icon} {
+            background: url( $wind-icon-path + "/" + $icon + ".svg" );
+        }
     }
 }

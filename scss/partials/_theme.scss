@@ -8,28 +8,19 @@
 /* 레이아웃
    -------------------------------------------------- */
 
-/* 헬퍼 클래스 */
-.l-left {
+.float_left {
     float: left;
 }
 
-.l-right {
+.float_right {
     float: right;
 }
 
-/* 헤더 */
-.l-header {
-    // padding-top: 10px;
-    position: relative;
-    z-index: 1;
-}
-
-.l-main_header {
+#main_header {
     height: 60px;
 }
 
-/* 컨텐츠 */
-.l-content {
+#content {
     padding: 10px 0;
     min-height: 80vh;
 }
@@ -40,6 +31,8 @@
 /* 컨테이너 */
 #header {
     border-bottom: 1px solid $border-color;
+    position: relative;
+    z-index: 1;
 }
 
 /* 서브헤더 */
@@ -357,6 +350,7 @@
 .current_weather {
 
     .row {
+        border-bottom: 1px dashed $border-color;
         color: $base-font-color;
         display: table;
         width: 100%;
@@ -377,19 +371,9 @@
                 text-align: center;
             }
         }
-        /*
+
         &.heading {
-            background: $accent;
-            @include border-radius($radius);
-
-            span {
-                color: white;
-            }
-        }
-        */
-
-        &:not(.heading) {
-            border-bottom: 1px dashed $border-color;
+            border: 0;
         }
     }
 
@@ -421,18 +405,29 @@
 
 /* 메인 컨텐츠 >> 전국 날씨정보 (메테오 맵)
    -------------------------------------------------- */
+.meteo_map {
 
-/* 메테오 맵 컨트롤러 */
-.meteomap_nav {
-
-    /* 날짜 선택 그룹 */
-    .ui-datepicker-wrap {
-        float: right;
-        position: relative;
+    /* 컨트롤러 */
+    &_control {
     }
 
-    /* 날짜 선택 필드 */
-    .ui-datepicker-field {
+    /* 컨트롤러 > 토글 (날씨, 강수량, 바람) */
+    &_toggle {
+        float: left;
+
+        li {
+            display: inline-block;
+            margin-right: 8px;
+        }
+    }
+
+    /* 컨트롤러 > 날짜 선택 */
+    &_select_date {
+        float: right;
+        position: relative;
+
+        /* 날짜 선택 필드 */
+        .ui-datepicker-field {
             width: 200px;
             height: 30px;
             padding: 0 45px 0 6px;
@@ -440,243 +435,225 @@
             text-align: center;
             @include text-scale(1);
             cursor: pointer;
-    }
-
-    /* 날짜 선택 버튼 */
-    .ui-datepicker-trigger {
-        background: white;
-        border: 1px solid $ui-border-color;
-        @include border-top-right-radius($radius);
-        @include border-bottom-right-radius($radius);
-        color: $base-font-color;
-        display: inline-block;
-        width: 40px;
-        height: 30px;
-        padding: 6px 6px 9px;
-        position: absolute;
-        top: 0;
-        right: 0;
-        line-height: 15px;
-        @include text-scale(1);
-        @include appearance(none);
-    }
-}
-
-/* 모드 스위치 버튼 */
-#meteomap_switcher {
-    float: left;
-
-    li {
-        display: inline-block;
-        margin-right: 8px;
-    }
-}
-
-/* 메테오 맵 본체 */
-.meteomap_content {
-    @include border-radius($radius);
-    padding: 10px 0;
-    position: relative;
-
-    ul {
-        background: url(../img/map/south_korea.png) no-repeat scroll 0 0;
-        background: {
-            image: url(../img/map/south_korea.svg), none;
-            size: 100% 100%;
         }
+
+        /* 날짜 선택 버튼 */
+        .ui-datepicker-trigger {
+            background: white;
+            border: 1px solid $ui-border-color;
+            @include border-top-right-radius($radius);
+            @include border-bottom-right-radius($radius);
+            color: $base-font-color;
+            display: inline-block;
+            width: 40px;
+            height: 30px;
+            padding: 6px 6px 9px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            line-height: 15px;
+            @include text-scale(1);
+            @include appearance(none);
+        }
+    }
+
+    /* 메테오 맵 본체 */
+    &_wrap {
+        padding: 10px 0;
+        position: relative;
+    }
+
+    &_list {
+        background: url(../img/map/south_korea.svg);
+        background-size: 100% 100%;
         display: block;
         width: 380px;
         height: 457px;
         margin: 0 auto;
         padding: 0;
         position: relative;
-    }
 
-    li {
-        display: block;
-        width: 44px;
-        position: absolute;
-
-        &.seoul {
-            top: 57px;
-            left: 91px;
-        }
-        &.incheon {
-            top: 75px;
-            left: 44px;
-        }
-        &.suwon {
-            top: 118px;
-            left: 90px;
-        }
-        &.chuncheon {
-            top: 46px;
-            left: 140px;
-        }
-        &.gangreung {
-            top: 52px;
-            left: 204px;
-        }
-        &.dokdo {
-            width: 48px;
-            top: 110px;
-            left: 330px;
-        }
-        &.baengnyeongdo {
-            width: 48px;
-            top: 15px;
-            left: 2px;
-        }
-        &.daejeoun {
-            top: 199px;
-            left: 127px;
-        }
-        &.seosan {
-            top: 144px;
-            left: 24px;
-        }
-        &.chungju {
-            top: 139px;
-            left: 139px;
-        }
-        &.jeonju {
-            top: 206px;
-            left: 80px;
-        }
-        &.heuksando {
-            width: 48px;
-            top: 249px;
-            left: 6px;
-        }
-        &.gwanju {
-            top: 266px;
-            left: 85px;
-        }
-        &.yeosu {
-            top: 316px;
-            left: 131px;
-        }
-        &.mokpo {
-            top: 310px;
-            left: 36px;
-        }
-        &.daegu {
-            top: 210px;
-            left: 196px;
-        }
-        &.andong {
-            top: 135px;
-            left: 212px;
-        }
-        &.pohang {
-            top: 158px;
-            left: 274px;
-        }
-        &.ulsan {
-            top: 218px;
-            left: 248px;
-        }
-        &.busan {
-            top: 278px;
-            left: 234px;
-        }
-        &.changwon {
-            top: 270px;
-            left: 177px;
-        }
-        &.jeju {
-            top: 390px;
-            left: 110px;
-        }
-    }
-
-    a {
-        background: #464e4e;
-        box-shadow: 1px 1px 1px rgba(black, .2);
-        color: white;
-        display: block;
-        padding: 3px 0;
-        line-height: 1.1;
-        text: {
-            align: center;
-            decoration: none;
-        }
-
-        &:hover {
-            box-shadow: inset 0 0 1px rgba(white, .9);
-        }
-
-        > span {
+        &_item {
             display: block;
-        }
+            width: 44px;
+            position: absolute;
 
-        .data {
-            > * {
-                display: none;
+            &.seoul {
+                top: 57px;
+                left: 91px;
+            }
+            &.incheon {
+                top: 75px;
+                left: 44px;
+            }
+            &.suwon {
+                top: 118px;
+                left: 90px;
+            }
+            &.chuncheon {
+                top: 46px;
+                left: 140px;
+            }
+            &.gangreung {
+                top: 52px;
+                left: 204px;
+            }
+            &.dokdo {
+                width: 48px;
+                top: 110px;
+                left: 330px;
+            }
+            &.baengnyeongdo {
+                width: 48px;
+                top: 15px;
+                left: 2px;
+            }
+            &.daejeoun {
+                top: 199px;
+                left: 127px;
+            }
+            &.seosan {
+                top: 144px;
+                left: 24px;
+            }
+            &.chungju {
+                top: 139px;
+                left: 139px;
+            }
+            &.jeonju {
+                top: 206px;
+                left: 80px;
+            }
+            &.heuksando {
+                width: 48px;
+                top: 249px;
+                left: 6px;
+            }
+            &.gwanju {
+                top: 266px;
+                left: 85px;
+            }
+            &.yeosu {
+                top: 316px;
+                left: 131px;
+            }
+            &.mokpo {
+                top: 310px;
+                left: 36px;
+            }
+            &.daegu {
+                top: 210px;
+                left: 196px;
+            }
+            &.andong {
+                top: 135px;
+                left: 212px;
+            }
+            &.pohang {
+                top: 158px;
+                left: 274px;
+            }
+            &.ulsan {
+                top: 218px;
+                left: 248px;
+            }
+            &.busan {
+                top: 278px;
+                left: 234px;
+            }
+            &.changwon {
+                top: 270px;
+                left: 177px;
+            }
+            &.jeju {
+                top: 390px;
+                left: 110px;
             }
 
-            i {
-                background-size: 24px 24px;
-                width: 24px;
-                height: 24px;
-                margin: 1px auto;
+            a {
+                background: #464e4e;
+                box-shadow: 1px 1px 1px rgba(black, .2);
+                color: white;
+                display: block;
+                padding: 3px 0;
+                line-height: 1.1;
+                text: {
+                    align: center;
+                    decoration: none;
+                }
+
+                &:hover {
+                    box-shadow: inset 0 0 1px rgba(white, .9);
+                }
+
+                > span {
+                    display: block;
+                }
+
+                .data {
+                    > i,
+                    > span {
+                        @include toggleBlock(false);
+                    }
+
+                    i {
+                        background-size: 24px 24px;
+                        width: 24px;
+                        height: 24px;
+                        margin: 1px auto;
+                    }
+                }
             }
         }
-    }
 
-    .mode_weather {
-        .meteo {
+        .notice_failure {
+            color: red;
             display: block;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            text-align: right;
+        }
+    }
+}
+
+#meteo_map {
+    .show_weather {
+        .temp_max,
+        .temp_min {
+            @include toggleBlock(true);
         }
 
-        &.currentday {
+        &.is_today {
             .temp_avg {
-                display: block;
+                @include toggleBlock(true);
             }
-        }
-
-        &:not(.currentday) {
-            .temp_max, .temp_min {
-                display: block;
+            .temp_max,
+            .temp_min {
+                @include toggleBlock(false);
             }
         }
     }
 
-    .mode_precip {
+    .show_precip {
         > li {
             margin-top: 12px; /* 기상 아이콘의 절반 크기 */
         }
 
         .precip {
-            display: block;
+            @include toggleBlock(true);
             margin-top: 3px;
         }
     }
 
-    .mode_wind {
-        .wind_dir, .wind_spd {
-            display: block;
+    .show_wind {
+        .wind_dir,
+        .wind_spd {
+            @include toggleBlock(true);
         }
     }
-
-    .notice_failure {
-        color: red;
-        display: block;
-        width: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        text-align: right;
-    }
 }
-
-/* 아이콘 설명 */
-#meteomap_legend {
-    position: absolute;
-    right: 20px;
-    bottom: 20px;
-}
-
 
 /* 메인 컨텐츠 >> 기상청 새 소식
    -------------------------------------------------- */

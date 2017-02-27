@@ -11,10 +11,18 @@ $base-line-height: 1.6;
 $base-tracking: -0.03em;
 $base-font-color: #161616;
 
+// 아이콘 종류
+$meteo-types: ("clear", "cloudy", "cloudy2", "hail", "lightning", "rainy", "snowy");
+$wind-directions: ("n", "nne", "ne", "ene", "e", "ese", "se", "sse", "s", "ssw", "sw", "wsw", "w", "wnw", "nw", "nnw");
+
+// 이미지 경로
+$meteo-icon-path: image-url("weather", true, false);
+$wind-icon-path: image-url("wind", true, false);
+
 // 색상
 $accent: #30a3da;
 $border-color: #e3e3e3;
 $ui-border-color: #d2d2d2;
 
-// 세부 설정
+// 모서리 둥글기값
 $radius: 0.25em;
